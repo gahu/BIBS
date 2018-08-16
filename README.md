@@ -1,4 +1,4 @@
-# Infomation protect
+# Graduation Project
 - project repository
 - 프로젝트에 contribute 하기위해서 project owner 가 contributor 로 추가해줘야한다.
 - 추가하려는 email 은 개인 profile > setting 에서 email 을 공개해줘야한다.
