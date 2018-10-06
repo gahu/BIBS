@@ -1,15 +1,23 @@
 import React from 'react';
 import PageTemplate from 'components/common/PageTemplate';
-import PostInfo from 'components/post/PostInfo';
-import PostBody from 'components/post/PostBody';
+import Post from 'containers/post/Post';
+import AskRemoveModalContainer from 'containers/modal/AskRemoveModalContainer';
+import * as postActions from 'store/modules/post';
+import { bindActionCreators } from 'redux';
 
-const PostPage = () => {
+const PostPage = ({match}) => {
+    const { id } = match.params;
     return (
         <PageTemplate>
-            <PostInfo/>
-            <PostBody/>
+            <Post id={id}/>
+            <AskRemoveModalContainer/>
         </PageTemplate>
     );
 };
 
+PostPage.preload = (dispatch, params) => {
+    const { id } = params;
+    const PostActions = bindActionCreators(postActions, dispatch);
+    return PostActions.getPost(id);
+}
 export default PostPage;

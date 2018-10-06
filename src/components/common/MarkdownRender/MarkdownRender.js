@@ -5,14 +5,21 @@ import classNames from 'classnames/bind';
 import marked from 'marked';
 
 // prism 관련 코드 불러오기
-import Prism from 'prismjs';
+// import Prism from 'prismjs';
 import 'prismjs/themes/prism-okaidia.css';
-// 지원할 코드 형식들을 불러오기
-// http://prismjs.com/#languages-list
-import 'prismjs/components/prism-bash.min.js';
-import 'prismjs/components/prism-javascript.min.js';
-import 'prismjs/components/prism-jsx.min.js';
-import 'prismjs/components/prism-css.min.js';
+
+// 웹 브라우저일 때만 로딩
+let Prism = null;
+const isBrowser = process.env.APP_ENV === 'browser';
+if(isBrowser) {
+    Prism = require('prismjs');
+    // 지원할 코드 형식들을 불러오기
+    // http://prismjs.com/#languages-list
+    require('prismjs/components/prism-bash.min.js');
+    require('prismjs/components/prism-javascript.min.js');
+    require('prismjs/components/prism-jsx.min.js');
+    require('prismjs/components/prism-css.min.js');
+}
 
 const cx = classNames.bind(styles);
 
@@ -43,6 +50,10 @@ class MarkdownRender extends Component {
         this.state = {
             html: markdown ? marked(props.markdown, { breaks: true, sanitize: true }) : ''
         }
+    }
+
+    componentDidMount() {
+        Prism.highlightAll();
     }
 
     componentDidUpdate(prevProps, prevState) {

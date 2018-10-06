@@ -18,6 +18,12 @@ import { mainListItems, secondaryListItems } from './listItems';
 import SimpleLineChart from './SimpleLineChart';
 import SimpleTable from './SimpleTable';
 
+import { Switch, Route } from 'react-router-dom';
+import MainScreen from '../MainScreen';
+import { ListPage, PostPage, EditorPage, NotFoundPage } from 'pages';
+import Blog from '../Blog/Blog';
+import GrommetWorldMap from '../GrommetWorldMap';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -107,6 +113,10 @@ class Dashboard extends React.Component {
     this.setState({ open: false });
   };
 
+  // handleClick = () => {
+  //   Link
+  // };
+
   render() {
     const { classes } = this.props;
 
@@ -131,15 +141,16 @@ class Dashboard extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
-                Dashboard
+                BIBS
               </Typography>
               <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
+                <Badge badgeContent={0} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
             </Toolbar>
           </AppBar>
+          {/* 페이지를 그리는 부분 */}
           <Drawer
             variant="permanent"
             classes={{
@@ -148,7 +159,7 @@ class Dashboard extends React.Component {
             open={this.state.open}
           >
             <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose}>
+              <IconButton onClick={this.handleDrawerClose}> {/*클릭시 접어진다.*/}
                 <ChevronLeftIcon />
               </IconButton>
             </div>
@@ -156,20 +167,24 @@ class Dashboard extends React.Component {
             <List>{mainListItems}</List>
             <Divider />
             <List>{secondaryListItems}</List>
+          {/*Main pages*/}
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <Typography variant="display1" gutterBottom>
-              Orders
-            </Typography>
-            <Typography component="div" className={classes.chartContainer}>
-              <SimpleLineChart />
-            </Typography>
-            <Typography variant="display1" gutterBottom>
-              Products
-            </Typography>
+              <Typography variant="display1" gutterBottom>
+                Visit
+              </Typography>
+              <Typography component="div" className={classes.chartContainer}>
+                <SimpleLineChart />
+                {/* <MainScreen/> */}
+              </Typography>
+
+              <Typography variant="display1" gutterBottom>
+                Map
+              </Typography>
             <div className={classes.tableContainer}>
-              <SimpleTable />
+              {/* <SimpleTable /> */}
+              <GrommetWorldMap/>
             </div>
           </main>
         </div>

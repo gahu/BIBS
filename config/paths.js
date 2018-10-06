@@ -52,5 +52,7 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  globalStyles: resolveApp('src/styles')
+  globalStyles: resolveApp('src/styles'),
+  ssrJs: resolveApp('src/ssr.js'),
+  ssrBuild: resolveApp('../src/ssr') // 수정 전 path확인 후 변경
 };
