@@ -1,4 +1,4 @@
-# Comprehensive Design Protect
+# Comprehensive Design Project
 - project repository
 - 프로젝트에 contribute 하기위해서 project owner 가 contributor 로 추가해줘야한다.
 - 추가하려는 email 은 개인 profile > setting 에서 email 을 공개해줘야한다.
@@ -51,7 +51,7 @@ origin	git@github.com:gahu/BIBS.git (push)
 $ cd BIBS
 ```
 ***
-##Installation
+## Installation
 Firstly make sure that you have Node and Git installed. Next clone this repo https://github.com/gahu/BIBS.git you can do this by going into your shell of choice and entering
 ```
 git clone https://github.com/gahu/BIBS.git
@@ -60,13 +60,19 @@ then change into that folder
 ```
 cd BIBS
 ```
+install yarn (select)
+```javascript
+npm install -g yarn
+```
 install the necessary packages locally
 ```
 npm install
+yarn install
 ```
 and start up a local server
 ```
 npm start
+yarn start
 ```
 Now visit localhost:3000 from your browser. Now your app should be up and running.
 
