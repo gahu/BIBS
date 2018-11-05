@@ -113,10 +113,6 @@ class Dashboard extends React.Component {
     this.setState({ open: false });
   };
 
-  // handleClick = () => {
-  //   Link
-  // };
-
   render() {
     const { classes } = this.props;
 
@@ -176,16 +172,15 @@ class Dashboard extends React.Component {
               </Typography>
               <Typography component="div" className={classes.chartContainer}>
                 <SimpleLineChart />
-                {/* <MainScreen/> */}
               </Typography>
 
               <Typography variant="display1" gutterBottom>
                 Map
               </Typography>
-            <div className={classes.tableContainer}>
-              {/* <SimpleTable /> */}
-              <GrommetWorldMap/>
-            </div>
+              <Typography component="div" className={classes.tableContainer}>
+                {/* <SimpleTable /> */}
+                <GrommetWorldMap/>
+              </Typography>
           </main>
         </div>
       </React.Fragment>

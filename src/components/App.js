@@ -5,10 +5,14 @@ import Base from 'containers/common/Base';
 import MainScreen from './MainScreen';
 import Blog from './Blog/Blog';
 import GrommetWorldMap from './GrommetWorldMap';
+import Navigators from './Navigator';
+import VideoPage from './videos/video';
+import GPS from './gps/gps';
 
 const App = () => {
     return (
         <div>
+            {/* <Navigators/> Nav*/}
             <Switch>
                 <Route exact path="/" component={MainScreen}/>
                 <Route path="/blog/" component={Blog}/>
@@ -18,6 +22,8 @@ const App = () => {
                 <Route path="/tag/:tag/:page?" component={ListPage}/>
                 <Route path="/post/:id" component={PostPage}/>
                 <Route path="/editor" component={EditorPage}/>
+                <Route path="/video/" component={VideoPage}/>
+                <Route path="/gps/" component={GPS}/>
                 <Route component={NotFoundPage}/>
             </Switch>
             <Base/>

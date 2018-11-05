@@ -5,50 +5,50 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-// import PeopleIcon from '@material-ui/icons/People';
+import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
-import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const mainListItems = (
   <div>
+    <Link to="/">
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard"><Route path="/"/></ListItemText>
+      <ListItemText primary="Dashboard"></ListItemText>
     </ListItem>
-    
-    {/* <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Orders" />
-    </ListItem>
+    </Link>
 
+    <Link to="/page/">
     <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Customers" />
-    </ListItem> */}
-
-    <ListItem button>
-      <Route path="/page/"/>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Board" />
     </ListItem>
+    </Link>
 
+    <Link to="/video/">
     <ListItem button>
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary="Video" />
     </ListItem>
+    </Link>
+
+    <Link to="/gps/">
+    <ListItem button>
+      <ListItemIcon>
+        <PeopleIcon />
+      </ListItemIcon>
+      <ListItemText primary="GPS" />
+    </ListItem>
+    </Link>
 
   </div>
 );

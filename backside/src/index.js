@@ -43,10 +43,15 @@ const sessionConfig = {
 };
 
 app.use(session(sessionConfig, app));
-app.key = [signKey];
+app.keys = [signKey];
 
 // app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods());
+
+// gps
+// app.get('/', function(req, res) {
+//     res.sendFile(__dirname + '/lation_to_address.html');
+// });
 
 app.use(serve(staticPath)); // 주의: serve가 ssr전에 와야만 한다.
 app.use(ssr); // 일치하는 것이 없으면 ssr을 실행

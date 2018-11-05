@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as listActions from 'store/modules/list';
 import shouldCancel from 'lib/shouldCancel';
+import { ContentAddCircleOutline } from 'material-ui/svg-icons';
 
 class ListContainer extends Component {
   getPostList = () => {
@@ -19,12 +20,14 @@ class ListContainer extends Component {
   
   componentDidMount() {
     this.getPostList();
+    console.log('첫 마운트');
   }
 
   componentDidUpdate(prevProps, prevState) {
     // 페이지/태그가 바뀔 때 리스트를 다시 불러온다
     if(prevProps.page !== this.props.page || prevProps.tag !== this.props.tag) {
       this.getPostList();
+      console.log('여까지 왔음');
       // 스크롤바를 맨 위로 올린다
       document.documentElment.scrollTop = 0;
     }

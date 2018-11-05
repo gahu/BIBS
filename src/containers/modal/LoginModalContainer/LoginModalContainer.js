@@ -55,6 +55,7 @@ export default connect(
     error: state.base.getIn(['loginModal', 'error'])
   }),
   (dispatch) => ({
+    // bindActionCreators 는 액션함수들을 자동으로 바인딩해준다.
     BaseActions: bindActionCreators(baseActions, dispatch)
   })
 )(LoginModalContainer);

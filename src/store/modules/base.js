@@ -21,7 +21,7 @@ export const hideModal = createAction(HIDE_MODAL);
 export const login = createAction(LOGIN, api.login);
 export const logout = createAction(LOGOUT, api.logout);
 export const checkLogin = createAction(CHECK_LOGIN, api.checkLogin);
-export const chagePasswordInput = createAction(CHANGE_PASSWORD_INPUT);
+export const changePasswordInput = createAction(CHANGE_PASSWORD_INPUT);
 export const initializeLoginModal = createAction(INITIALIZE_LOGIN_MODAL);
 export const tempLogin = createAction(TEMP_LOGIN);
 
