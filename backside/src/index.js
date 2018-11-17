@@ -21,98 +21,106 @@ const crypto = require('crypto');
 const staticPath = path.join(__dirname, '../../BIBS/build'); // path 변경필요
 const videoPath = path.join(__dirname, '../../public/accidents/');
 
-var Web3 = require('web3');
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+// var Web3 = require('web3');
+// var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-var abi = [
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getCreator",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_video_hash",
-				"type": "string"
-			},
-			{
-				"name": "_time",
-				"type": "string"
-			},
-			{
-				"name": "_location",
-				"type": "string"
-			}
-		],
-		"name": "addAccidentInfo",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAccidentCount",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "index",
-				"type": "uint8"
-			}
-		],
-		"name": "getAccident",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	}
-];
+// var abi = [
+// 	{
+// 		"constant": true,
+// 		"inputs": [],
+// 		"name": "getCreator",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "address"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [
+// 			{
+// 				"name": "index",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"name": "getAccident",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "string"
+// 			},
+// 			{
+// 				"name": "",
+// 				"type": "string"
+// 			},
+// 			{
+// 				"name": "",
+// 				"type": "string"
+// 			},
+// 			{
+// 				"name": "",
+// 				"type": "string"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": false,
+// 		"inputs": [
+// 			{
+// 				"name": "_video_hash",
+// 				"type": "string"
+// 			},
+// 			{
+// 				"name": "_time",
+// 				"type": "string"
+// 			},
+// 			{
+// 				"name": "_latitude",
+// 				"type": "string"
+// 			},
+// 			{
+// 				"name": "_longitude",
+// 				"type": "string"
+// 			}
+// 		],
+// 		"name": "addAccidentInfo",
+// 		"outputs": [],
+// 		"payable": false,
+// 		"stateMutability": "nonpayable",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"constant": true,
+// 		"inputs": [],
+// 		"name": "getAccidentCount",
+// 		"outputs": [
+// 			{
+// 				"name": "",
+// 				"type": "uint256"
+// 			}
+// 		],
+// 		"payable": false,
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"inputs": [],
+// 		"payable": false,
+// 		"stateMutability": "nonpayable",
+// 		"type": "constructor"
+// 	}
+// ];
 
-var ContractAddress = "0xb716f953bf445cdec0c38eb598b59907b7600f06";
-var AccCon = web3.eth.contract(abi);
-var AccContract = AccCon.at(ContractAddress);
+// var ContractAddress = "0xe2671ddc66d757d755ad01635c3bebdcca68a726";
+// var AccCon = web3.eth.contract(abi);
+// var AccContract = AccCon.at(ContractAddress);
 
 var postModel = require(__dirname + '/models/post');
 
@@ -130,7 +138,8 @@ var upload = multer({
 const {
     PORT: port = 4000, // 값이 존재하지 않는다면 4000을 기본 값으로 사용
     MONGO_URI: mongoURI,
-    COOKIE_SIGN_KEY: signKey
+    COOKIE_SIGN_KEY: signKey,
+    DAUM_KEY: d_key
 } = process.env;
 
 mongoose.Promise = global.Promise; // Node의 Promise로 사용하도록 설정
@@ -173,13 +182,13 @@ app.listen(port, () => {
 
 app2.use(bodyParser2.json());
 
-AccContract.getAccidentCount(function(e, r){
-    if(e) console.log(e);
-    else{
-        console.log(r.toString(10));
-        console.log(r.toNumber());
-    }
-});
+// AccContract.getAccidentCount(function(e, r){
+//     if(e) console.log(e);
+//     else{
+//         console.log(r.toString(10));
+//         console.log(r.toNumber());
+//     }
+// });
 
 app2.post('/', upload.any(), (req, res)=>{
    console.log(req);
@@ -287,28 +296,37 @@ app2.post('/', upload.any(), (req, res)=>{
 
    console.log(output);
 
-   AccContract.addAccidentInfo.sendTransaction(output, acc_time, 'location', {
-                                                to : web3.eth.accounts[0],
-                                                from : '0x03466bd0862f7fdec52e9d5c697ea2bd5bc68dec',
-                                                gas: 8000029
-                                                }, function(error, transactionHash){
-        if(!error){
-            console.log('Contract no error');
-        }else{
-            console.log(error);
-        }
-    });
+//    AccContract.addAccidentInfo.sendTransaction(output, acc_time, req.body.latitude, req.body.longitude, {
+//                                                 to : web3.eth.accounts[0],
+//                                                 from : '0x03466bd0862f7fdec52e9d5c697ea2bd5bc68dec',
+//                                                 gas: 8000029
+//                                                 }, function(error, transactionHash){
+//         if(!error){
+//             console.log('Contract no error');
+//         }else{
+//             console.log(error);
+//         }
+//     });
 
    var mappingNumber = 0;
-    AccContract.getAccidentCount('sherry92', function(e, r ){
-       if(e) console.log(e);
-       else {
-          console.log(r.toNumber());
-          mappingNumber = r.toNumber();
+    // AccContract.getAccidentCount('sherry92', function(e, r ){
+    //    if(e) console.log(e);
+    //    else {
+    //       console.log(r.toNumber());
+    //       mappingNumber = r.toNumber();
+          var lat_1 = req.body.latitude;
+          var lon_1 = req.body.longitude;
+
+          lat_1 = Number(lat_1);
+          lon_1 = Number(lon_1);
+
+          console.log(typeof lat_1);
+          console.log(typeof lon_1);
           var post = new postModel({
                 userId : 'sherry92',
                 accTime : acc_time,
-                accAddr : 'KAU',
+                lat : lat_1,
+                lon : lon_1,
                 video : videoPath + acc_time + '.mp4', 
                 accNum : mappingNumber,
                 carName : req.body.carName,
@@ -324,8 +342,8 @@ app2.post('/', upload.any(), (req, res)=>{
                    console.log('successfully new data Insert!');
                 }
           });
-       }
-   });
+//        }
+//    });
 
    console.log('FINISH!');
    res.send('Good Job!');

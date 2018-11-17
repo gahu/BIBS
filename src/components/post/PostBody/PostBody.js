@@ -5,14 +5,14 @@ import MarkdownRender from 'components/common/MarkdownRender';
 
 const cx = classNames.bind(styles);
 
-const PostBody = ({accTime, video, accAddr, carName, carNumber}) => (
+const PostBody = ({accTime, video, addr, carName, carNumber}) => (    
     <React.Fragment>
     <div className={cx('post-body')}>
         <div className={cx('paper')}>
             {/* <MarkdownRender markdown={accAddr}/> */}
             <ul>
                 <li>사고 시간 : {accTime}</li>
-                <li>사고 장소 : {accAddr}</li>
+                <li>사고 장소 : {addr}</li>
                 <li>차량 이름 : {carName}</li>
                 <li>차량 번호 : {carNumber}</li>
                 <li>video: </li>

@@ -41,58 +41,49 @@ class gps extends Component {
         const marker = new daum.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
             infowindow = new daum.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
 
+        var lat_1 = 37.4135637;
+        var lon_1 = 126.9056144;
 
+        var latlon = new daum.maps.LatLng(lat_1,lon_1);
         
-        //function button1_click(){
-
-                // var lat_1 = document.getElementById("lat").value; 
-                // var lon_1 = document.getElementById("lon").value;
-                // 입력받는 부분을 정보를 받아서 넣도록 한다.
-                // var lat_1 = 37.6006;
-                // var lon_1 = 126.8651;
-                var lat_1 = 37.4135637;
-                var lon_1 = 126.9056144;
-
-                var latlon = new daum.maps.LatLng(lat_1,lon_1);
-        
-                searchDetailAddrFromCoords(latlon, function(result, status) {
-                    if (status === daum.maps.services.Status.OK) {
-                        var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-                        detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+        searchDetailAddrFromCoords(latlon, function(result, status) {
+            if (status === daum.maps.services.Status.OK) {
+                var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+                    detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
                         
-                        var content = '<div className={cx("bAddr")}>' + 
-                                        '<span className={cx("title")}>법정동 주소정보</span>' + 
-                                    detailAddr + '</div>';
-                        // 중심위치 설정
-        //                  map = new daum.maps.Map(mapContainer, mapOption); //지도를 생성합니다.
-                        map.setCenter(latlon);
+                var content = '<div className={cx("bAddr")}>' + 
+                                    '<span className={cx("title")}>법정동 주소정보</span>' + 
+                                detailAddr + '</div>';
+                // 중심위치 설정
+//                  map = new daum.maps.Map(mapContainer, mapOption); //지도를 생성합니다.
+                map.setCenter(latlon);
                         
-                        // 마커를 클릭한 위치에 표시합니다 
-                        marker.setPosition(latlon);
-                        marker.setMap(map);
+                // 마커를 클릭한 위치에 표시합니다 
+                marker.setPosition(latlon);
+                marker.setMap(map);
         
-                        // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-        //                 infowindow.setContent(null);
-                        infowindow.setContent(content);
-                        infowindow.open(map, marker);
-                    }
-                });
-            //}
-            // // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-            // daum.maps.event.addListener(map, 'idle', function() {
-            //     searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-            // });
-                
-            // function searchAddrFromCoords(coords, callback) {
-            //     // 좌표로 행정동 주소 정보를 요청합니다
-            //     geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
-            // }
-                
-            function searchDetailAddrFromCoords(coords, callback) {
-                // 좌표로 법정동 상세 주소 정보를 요청합니다
-                console.log(coords.getLat(), coords.getLng());
-                geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+                // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+//                 infowindow.setContent(null);
+                infowindow.setContent(content);
+                infowindow.open(map, marker);
             }
+        });
+    //}
+    // // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+    // daum.maps.event.addListener(map, 'idle', function() {
+    //     searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+    // });
+                
+        // function searchAddrFromCoords(coords, callback) {
+        //     // 좌표로 행정동 주소 정보를 요청합니다
+        //     geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+        // }
+                
+        function searchDetailAddrFromCoords(coords, callback) {
+            // 좌표로 법정동 상세 주소 정보를 요청합니다
+            console.log(coords.getLat(), coords.getLng());
+            geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+        }
                 
                 // function displayCenterInfo(result, status) {
                 //     if (status === daum.maps.services.Status.OK) {

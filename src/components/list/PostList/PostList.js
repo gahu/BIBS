@@ -7,7 +7,7 @@ import moment from 'moment';
 
 const cx = classNames.bind(styles);
     
-const PostItem = ({userId, accTime, accAddr, video, accNum, carName, carNumber, publishedDate, id}) => {
+const PostItem = ({userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate, id}) => {
     // const tagList = accNum.map(
     //     accNum => <Link key={accNum} to={`/tag/${accNum}`}>#{accNum}</Link>
     // );
@@ -17,15 +17,15 @@ const PostItem = ({userId, accTime, accAddr, video, accNum, carName, carNumber, 
             <div className={cx('date')}>{moment(publishedDate).format('ll')}</div>
             {/* <p>{removeMd(body)}</p> */}
             <ul>
-                <li>accidentTime : {accTime}</li>
-                <li>accidentAddress : {accAddr}</li>
+                <li>사고 시간 : {accTime}</li>
+                {/* <li>accidentAddress : {accAddr}</li> */}
                 {/* <li>video : {video}</li> */}
-                <li>carName : {carName}</li>
-                <li>carNumber : {carNumber}</li>
+                <li>차 이름 : {carName}</li>
+                <li>차 번호 : {carNumber}</li>
             </ul>
             <div className={cx('tags')}>
                 {/* {tagList} */}
-                accNum={accNum}
+                사고 번호={accNum}
             </div>
         </div>
     )
@@ -34,12 +34,14 @@ const PostItem = ({userId, accTime, accAddr, video, accNum, carName, carNumber, 
 const PostList = ({posts}) => {
     const postList = posts.map(
         (post) => {
-            const { _id, userId, accNum, accTime, accAddr, publishedDate, video, carName, carNumber } = post.toJS()._doc;
+            const { _id, userId, accNum, accTime, lat, lon, publishedDate, video, carName, carNumber } = post.toJS()._doc;
             return (
                 <PostItem
                     userId={userId}
                     accTime={accTime}
-                    accAddr={accAddr}
+                    lat={lat}
+                    lon={lon}
+                    // accAddr={accAddr}
                     // video={video}
                     accNum={accNum}
                     carName={carName}

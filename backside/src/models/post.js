@@ -5,7 +5,8 @@ const { Schema } = mongoose;
 const Post = new Schema({
     userId: { type: String, required: true },
     accTime: { type: String, required: true },
-    accAddr: { type: String, required: true },
+    lat: { type: Number, required: true },
+    lon: { type: Number, required: true },
     video: { type: String, required: true },
     accNum: { type: Number, required: true, unique: true },
     carName: { type: String, required: true },

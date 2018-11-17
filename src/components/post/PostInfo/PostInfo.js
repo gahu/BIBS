@@ -34,7 +34,7 @@ const PostInfo = ({publishedDate, userId, accNum}) => (
                         accNum => <Link key={accNum} to={`/tag/${accNum}`}>#{accNum}</Link>
                     )
                 } */}
-                블록No. = {accNum}
+                사고 번호 = {accNum}
             </div>
             <div className={cx('date')}>{moment(publishedDate).format('ll')}</div>
         </div>
