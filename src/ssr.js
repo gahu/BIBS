@@ -11,7 +11,7 @@ import App from 'components/App';
 
 import transit from 'transit-immutable-js';
 
-const render = (ctx) => {
+const render = async (ctx) => {
     const { url, origin } = ctx; // 요청에서 URL을 받아 온다.
 
      // 요청의 Origin값(http://localhost:4000 같은 형태)을 baseURL로 설정하므로

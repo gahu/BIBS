@@ -102,7 +102,7 @@ const styles = theme => ({
 
 class Dashboard extends React.Component {
   state = {
-    open: true,
+    open: false,
   };
 
   handleDrawerOpen = () => {
@@ -139,11 +139,11 @@ class Dashboard extends React.Component {
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
                 BIBS
               </Typography>
-              <IconButton color="inherit">
+              {/* <IconButton color="inherit">
                 <Badge badgeContent={0} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
             </Toolbar>
           </AppBar>
           {/* 페이지를 그리는 부분 */}
@@ -163,8 +163,8 @@ class Dashboard extends React.Component {
             <List>{mainListItems}</List>
             <Divider />
             <List>{secondaryListItems}</List>
-          {/*Main pages*/}
           </Drawer>
+          {/*Main pages*/}
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
               <Typography variant="display1" gutterBottom>
@@ -175,7 +175,7 @@ class Dashboard extends React.Component {
               </Typography>
 
               <Typography variant="display1" gutterBottom>
-                Map
+                Board
               </Typography>
               <Typography component="div" className={classes.tableContainer}>
                 {/* <SimpleTable /> */}

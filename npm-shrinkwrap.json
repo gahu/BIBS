@@ -1,6 +1,6 @@
 {
   "name": "bibs_board",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -439,7 +439,7 @@
         },
         "util": {
           "version": "0.10.3",
-          "resolved": "https://registry.npmjs.org/util/-/util-0.10.3.tgz",
+          "resolved": "http://registry.npmjs.org/util/-/util-0.10.3.tgz",
           "integrity": "sha1-evsa/lCAUkZInj23/g7TeTNqwPk=",
           "requires": {
             "inherits": "2.0.1"
@@ -5282,7 +5282,7 @@
     },
     "handle-thing": {
       "version": "1.2.5",
-      "resolved": "https://registry.npmjs.org/handle-thing/-/handle-thing-1.2.5.tgz",
+      "resolved": "http://registry.npmjs.org/handle-thing/-/handle-thing-1.2.5.tgz",
       "integrity": "sha1-/Xqtcmvxpf0W38KbL3pmAdJxOcQ="
     },
     "handlebars": {
@@ -7697,7 +7697,7 @@
     },
     "next-tick": {
       "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/next-tick/-/next-tick-1.0.0.tgz",
+      "resolved": "http://registry.npmjs.org/next-tick/-/next-tick-1.0.0.tgz",
       "integrity": "sha1-yobR/ogoFpsBICCOPchCS524NCw="
     },
     "no-case": {
@@ -11593,9 +11593,9 @@
       }
     },
     "spdy-transport": {
-      "version": "2.1.0",
-      "resolved": "https://registry.npmjs.org/spdy-transport/-/spdy-transport-2.1.0.tgz",
-      "integrity": "sha512-bpUeGpZcmZ692rrTiqf9/2EUakI6/kXX1Rpe0ib/DyOzbiexVfXkw6GnvI9hVGvIwVaUhkaBojjCZwLNRGQg1g==",
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/spdy-transport/-/spdy-transport-2.1.1.tgz",
+      "integrity": "sha512-q7D8c148escoB3Z7ySCASadkegMmUZW8Wb/Q1u0/XBgDKMO880rLQDj8Twiew/tYi7ghemKUi/whSYOwE17f5Q==",
       "requires": {
         "debug": "^2.6.8",
         "detect-node": "^2.0.3",
@@ -12747,14 +12747,14 @@
       "integrity": "sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg=="
     },
     "webpack": {
-      "version": "3.8.1",
-      "resolved": "https://registry.npmjs.org/webpack/-/webpack-3.8.1.tgz",
-      "integrity": "sha512-5ZXLWWsMqHKFr5y0N3Eo5IIisxeEeRAajNq4mELb/WELOR7srdbQk2N5XiyNy2A/AgvlR3AmeBCZJW8lHrolbw==",
+      "version": "3.12.0",
+      "resolved": "https://registry.npmjs.org/webpack/-/webpack-3.12.0.tgz",
+      "integrity": "sha512-Sw7MdIIOv/nkzPzee4o0EdvCuPmxT98+vVpIvwtcwcF1Q4SDSNp92vwcKc4REe7NItH9f1S4ra9FuQ7yuYZ8bQ==",
       "requires": {
         "acorn": "^5.0.0",
         "acorn-dynamic-import": "^2.0.0",
-        "ajv": "^5.1.5",
-        "ajv-keywords": "^2.0.0",
+        "ajv": "^6.1.0",
+        "ajv-keywords": "^3.1.0",
         "async": "^2.1.2",
         "enhanced-resolve": "^3.4.0",
         "escope": "^3.6.0",
@@ -12775,20 +12775,36 @@
         "yargs": "^8.0.2"
       },
       "dependencies": {
-        "ajv-keywords": {
-          "version": "2.1.1",
-          "resolved": "https://registry.npmjs.org/ajv-keywords/-/ajv-keywords-2.1.1.tgz",
-          "integrity": "sha1-YXmX/F9gV2iUxDX5QNgZ4TW4B2I="
+        "ajv": {
+          "version": "6.5.5",
+          "resolved": "https://registry.npmjs.org/ajv/-/ajv-6.5.5.tgz",
+          "integrity": "sha512-7q7gtRQDJSyuEHjuVgHoUa2VuemFiCMrfQc9Tc08XTAc4Zj/5U1buQJ0HU6i7fKjXU09SVgSmxa4sLvuvS8Iyg==",
+          "requires": {
+            "fast-deep-equal": "^2.0.1",
+            "fast-json-stable-stringify": "^2.0.0",
+            "json-schema-traverse": "^0.4.1",
+            "uri-js": "^4.2.2"
+          }
         },
         "camelcase": {
           "version": "4.1.0",
           "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-4.1.0.tgz",
           "integrity": "sha1-1UVjW+HjPFQmScaRc+Xeas+uNN0="
         },
+        "fast-deep-equal": {
+          "version": "2.0.1",
+          "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz",
+          "integrity": "sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk="
+        },
         "has-flag": {
           "version": "2.0.0",
           "resolved": "https://registry.npmjs.org/has-flag/-/has-flag-2.0.0.tgz",
           "integrity": "sha1-6CB68cx7MNRGzHC3NLXovhj4jVE="
+        },
+        "json-schema-traverse": {
+          "version": "0.4.1",
+          "resolved": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz",
+          "integrity": "sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg=="
         },
         "load-json-file": {
           "version": "2.0.0",

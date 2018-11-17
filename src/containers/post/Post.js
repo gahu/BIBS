@@ -28,18 +28,28 @@ class Post extends Component {
 
         if(loading) return null; // 로딩 중일 때는 아무것도 보여 주지 않음
         
-        const { title, body, publishedDate, tags } = post.toJS();
-
+        // const { title, body, publishedDate, tags } = post.toJS();
+        const { userId, accTime, accAddr, video, accNum, carName, carNumber, publishedDate } = post.toJS();
+        
         return (
+            // <div>
+            //     { /* body 값이 있을 때만 Helmet 설정 */ body && (
+            //         <Helmet>
+            //             <title>{title}</title>
+            //             <meta name="description" content={removeMd(body).slice(0, 200)}/>
+            //         </Helmet>)
+            //     }
+            //     <PostInfo title={title} publishedDate={publishedDate} tags={tags}/>
+            //     <PostBody body={body}/>
+            // </div>
             <div>
-                { /* body 값이 있을 때만 Helmet 설정 */ body && (
+                {   accAddr && (
                     <Helmet>
-                        <title>{title}</title>
-                        <meta name="description" content={removeMd(body).slice(0, 200)}/>
+                        <title>{userId}</title>
                     </Helmet>)
                 }
-                <PostInfo title={title} publishedDate={publishedDate} tags={tags}/>
-                <PostBody body={body}/>
+                    <PostInfo userId={userId} accNum={accNum} publishedDate={publishedDate}/>
+                    <PostBody accTime={accTime} video={video} accAddr={accAddr} carName={carName} carNumber={carNumber}/>
             </div>
         )
     }

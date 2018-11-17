@@ -24,6 +24,12 @@ exports.check = (ctx) => {
     };
 };
 
+// 세션에 값을 설정할 때는
+// 'ctx.session.이름 = 값' 형식을 사용
+// 조회할 때는
+// 'ctx.session.이름' 형식을 사용
+// 세션을 파기할 때는
+// 'ctx.session = null'
 exports.logout = (ctx) => {
     ctx.session = null;
     ctx.status = 204; // No Content

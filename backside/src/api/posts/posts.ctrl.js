@@ -16,47 +16,47 @@ exports.checkObjectId = (ctx, next) => {
 const Post = require('models/post');
 const Joi = require('joi');
 
-exports.write = async (ctx) => {
-    // 객체가 지닌 값들을 검증
-    const schema = Joi.object().keys({
-        title: Joi.string().required(), // required는 필수 항목이라는 의미
-        body: Joi.string().required(),
-        tags: Joi.array().items(Joi.string()).required() // 문자열 배열
-    });
+// exports.write = async (ctx) => {
+//     // 객체가 지닌 값들을 검증
+//     const schema = Joi.object().keys({
+//         title: Joi.string().required(), // required는 필수 항목이라는 의미
+//         body: Joi.string().required(),
+//         tags: Joi.array().items(Joi.string()).required() // 문자열 배열
+//     });
 
-    // 첫 번째 파라미터는 검증할 객체, 두 번째는 스키마
-    const result = Joi.validate(ctx.request.body, schema);
+//     // 첫 번째 파라미터는 검증할 객체, 두 번째는 스키마
+//     const result = Joi.validate(ctx.request.body, schema);
 
-    // 오류가 발생하면 오류 내용 응답
-    if(result.error) {
-        ctx.status = 400;
-        ctx.body = result.error;
-        return;
-    }
+//     // 오류가 발생하면 오류 내용 응답
+//     if(result.error) {
+//         ctx.status = 400;
+//         ctx.body = result.error;
+//         return;
+//     }
 
-    const { title, body, tags } = ctx.request.body;
+//     const { title, body, tags } = ctx.request.body;
 
-    // 새 Post 인스턴스를 만든다.
-    const post = new Post({
-        title, body, tags
-    });
+//     // 새 Post 인스턴스를 만든다.
+//     const post = new Post({
+//         title, body, tags
+//     });
 
-    try {
-        await post.save(); // 데이터베이스에 등록
-        ctx.body = post; // 저장된 결과를 반환
-    } catch(e) {
-        ctx.throw(e, 500);
-    }
-};
+//     try {
+//         await post.save(); // 데이터베이스에 등록
+//         ctx.body = post; // 저장된 결과를 반환
+//     } catch(e) {
+//         ctx.throw(e, 500);
+//     }
+// };
 
 exports.list = async (ctx) => {
     // page가 주어지지 않았다면 1로 간주
     // query는 문자열 형태로 받아 오므로 숫자로 변환
     const page = parseInt(ctx.query.page || 1, 10);
-    const { tag } = ctx.query;
-
-    const query = tag ? {
-        tags: tag // tags 배열에 tag를 가진 포스트 찾기
+    const { accNum }= ctx.query;
+   
+    const query = accNum ? {
+        accNum: accNum // tags 배열에 tag를 가진 포스트 찾기
     } : {};
     
     // 잘못된 페이지가 주어졌다면 오류
@@ -71,15 +71,16 @@ exports.list = async (ctx) => {
         .limit(10)
         .skip((page - 1) * 10)
         .exec();
-        const postCount = await Post.count().exec();
+        const postCount = await Post.countDocuments(query).exec();
         const limitBodyLength = post => ({
             ...post,
-            body: post.body.length < 350 ? post.body : `${post.body.slice(0, 350)}...`
+            // body: post.body.length < 350 ? post.body : `${post.body.slice(0, 350)}...`
+            body: post.accNum
         });
         ctx.body = posts.map(limitBodyLength);
         // 마지막 페이지 알려 주기
         // ctx.set은 response header를 설정
-        ctx.set('Last-Page', Math.ceil(postCount / 10));
+        ctx.set('last-page', Math.ceil(postCount / 10));
     } catch(e) {
         ctx.throw(500, e);
     }

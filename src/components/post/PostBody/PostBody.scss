@@ -1,4 +1,5 @@
 @import 'utils';
+@import "~video-react/styles/scss/video-react";
 
 .post-body {
     .paper {
@@ -16,5 +17,18 @@
         width: 1024px;
         @include media("<large") { width: 768px; }
         @include media("<medium") { width: calc(100% - 2rem); }
+        .video {
+            margin: 0 auto;
+            width: 720px;
+            height: 405px;
+            @include media("<large") { 
+                width: 640px;
+                height: 360px;
+            }
+            @include media("<medium") {
+                width: 480px;
+                height: 270px;
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ import Button from 'components/common/Button';
 
 const cx = classNames.bind(styles);
 
+// 싹 변경이 필요하다
 const Header = ({postId, logged, onRemove}) => (
     <header className={cx('header')}>
         <div className={cx('header-content')}>

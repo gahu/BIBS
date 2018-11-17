@@ -5,7 +5,6 @@ import Base from 'containers/common/Base';
 import MainScreen from './MainScreen';
 import Blog from './Blog/Blog';
 import GrommetWorldMap from './GrommetWorldMap';
-import Navigators from './Navigator';
 import VideoPage from './videos/video';
 import GPS from './gps/gps';
 

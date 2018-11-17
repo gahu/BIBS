@@ -8,13 +8,13 @@ import { Helmet } from 'react-helmet';
 
 const ListPage = ({match}) => {
     // page의 기본 값을 1로 설정
-    const { page = 1, tag } = match.params;
+    const { page = 1, accNum } = match.params;
 
     // title 값을 page 값과 tag 값에 따라 동적으로 설정
     const title = (() => {
-        let title = 'reactblog';
-        if(tag) {
-            title += ` #${tag}`
+        let title = 'bibsboard';
+        if(accNum) {
+            title += ` #${accNum}`
         }
         if(page !== 1) {
             title += ` - ${page}`;
@@ -30,7 +30,7 @@ const ListPage = ({match}) => {
             <ListWrapper>
                 <ListContainer
                     page={parseInt(page, 10)}
-                    tag={tag}
+                    accNum={accNum}
                 />
             </ListWrapper>
         </PageTemplate>
@@ -38,10 +38,10 @@ const ListPage = ({match}) => {
 };
 
 ListPage.preload = (dispatch, params) => {
-    const { page = 1, tag } = params;
+    const { page = 1, accNum } = params;
     const ListActions = bindActionCreators(listActions, dispatch);
     return ListActions.getPostList({
-        page, tag
+        page, accNum
     });
 }
 

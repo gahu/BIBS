@@ -11,21 +11,20 @@ class ListContainer extends Component {
   getPostList = () => {
     if(shouldCancel()) return;
     // 페이지와 태그 값을 부모에게서 받아 온다
-    const { tag, page, ListActions } = this.props;
+    const { accNum, page, ListActions } = this.props;
     ListActions.getPostList({
       page,
-      tag
+      accNum
     });
   }
   
   componentDidMount() {
     this.getPostList();
-    console.log('첫 마운트');
   }
 
   componentDidUpdate(prevProps, prevState) {
     // 페이지/태그가 바뀔 때 리스트를 다시 불러온다
-    if(prevProps.page !== this.props.page || prevProps.tag !== this.props.tag) {
+    if(prevProps.page !== this.props.page || prevProps.accNum !== this.props.accNum) {
       this.getPostList();
       console.log('여까지 왔음');
       // 스크롤바를 맨 위로 올린다
@@ -34,12 +33,13 @@ class ListContainer extends Component {
   }
 
   render() {
-    const { loading, posts, page, lastPage, tag } = this.props;
+    const { loading, posts, page, lastPage, accNum } = this.props;
+    
     if(loading) return null; // 로딩 중에는 아무것도 보여 주지 않는다.
     return (
       <div>
         <PostList posts={posts}/>
-        <Pagination page={page} lastPage={lastPage} tag={tag}/>
+        <Pagination page={page} lastPage={lastPage} accNum={accNum}/>
       </div>
     );
   }

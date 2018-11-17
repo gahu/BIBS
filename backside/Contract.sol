@@ -1,7 +1,7 @@
 pragma solidity ^0.4.25;
 
 contract AccInfo{
-	address Creator;
+   address Creator;
 
     modifier onlyCreator() {
         require(msg.sender == Creator);
@@ -12,41 +12,35 @@ contract AccInfo{
         Creator = msg.sender;
     }
 
-	function getCreator() constant public returns(address){
-		return Creator;
-	}
-	struct accident{
-		string video_hash;
-		string time;
-		string location;
-	}
+   function getCreator() constant public returns(address){
+      return Creator;
+   }
 
-	struct driver{
-		uint256 count;
-		mapping(uint256 => accident) accidents;
-	}
+   struct accident{ 
+      string video_hash;
+      string time;
+      string location;
+   }
+   uint256 count = 1;
+   
+   mapping(uint256 => accident) Accidents;
 
-	mapping(string => driver) Drivers;
+   function addAccidentInfo(string _video_hash, string _time, string _location) 
+   public {
+      Accidents[count].video_hash = _video_hash;
+      Accidents[count].time = _time;
+      Accidents[count].location = _location;
+      count++;
+   }
 
-	function newDriversInfo(string ID) public {
-		Drivers[ID].count = 0;
-	}
+   function getAccidentCount() public view returns (uint256) {
+      return count;
+   }
 
-	function addAccidentInfo(string ID, string _video_hash, string _time, string _location, uint256 index) public {
-		Drivers[ID].accidents[index].video_hash = _video_hash;
-		Drivers[ID].accidents[index].time = _time;
-		Drivers[ID].accidents[index].location = _location;
-		Drivers[ID].count++;
-	}
-
-	function getAccidentCount(string ID) public view returns (uint256) {
-		return Drivers[ID].count;
-	}
-
-	function getAccident(string ID, uint256 index) public view returns (string, string, string){
-		return
-		(Drivers[ID].accidents[index].video_hash,
-		Drivers[ID].accidents[index].time,
-		Drivers[ID].accidents[index].location);
-	} 
+   function getAccident(uint256 index) public view returns (string, string, string){
+      return
+      (Accidents[index].video_hash,
+      Accidents[index].time,
+      Accidents[index].location);
+   } 
 }

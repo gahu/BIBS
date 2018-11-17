@@ -5,9 +5,9 @@ import Button from 'components/common/Button';
 
 const cx = classNames.bind(styles);
 
-const Pagination = ({page, lastPage, tag}) => {
+const Pagination = ({page, lastPage, accNum}) => {
     const createPagePath = (page) => {
-        return tag ? `/tag/${tag}/${page}` : `/page/${page}`;
+        return accNum ? `/tag/${accNum}/${page}` : `/page/${page}`;
     }
 
     return (
