@@ -5,7 +5,7 @@ import MarkdownRender from 'components/common/MarkdownRender';
 
 const cx = classNames.bind(styles);
 
-const PostBody = ({accTime, video, addr, carName, carNumber}) => (    
+const PostBody = ({accTime, video, addr, carName, carNumber}) => (
     <React.Fragment>
     <div className={cx('post-body')}>
         <div className={cx('paper')}>

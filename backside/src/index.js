@@ -21,108 +21,109 @@ const crypto = require('crypto');
 const staticPath = path.join(__dirname, '../../BIBS/build'); // path 변경필요
 const videoPath = path.join(__dirname, '../../public/accidents/');
 
-// var Web3 = require('web3');
-// var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+var Web3 = require('web3');
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-// var abi = [
-// 	{
-// 		"constant": true,
-// 		"inputs": [],
-// 		"name": "getCreator",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "address"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": true,
-// 		"inputs": [
-// 			{
-// 				"name": "index",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "getAccident",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"name": "",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"name": "",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"name": "",
-// 				"type": "string"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": false,
-// 		"inputs": [
-// 			{
-// 				"name": "_video_hash",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"name": "_time",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"name": "_latitude",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"name": "_longitude",
-// 				"type": "string"
-// 			}
-// 		],
-// 		"name": "addAccidentInfo",
-// 		"outputs": [],
-// 		"payable": false,
-// 		"stateMutability": "nonpayable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"constant": true,
-// 		"inputs": [],
-// 		"name": "getAccidentCount",
-// 		"outputs": [
-// 			{
-// 				"name": "",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"payable": false,
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [],
-// 		"payable": false,
-// 		"stateMutability": "nonpayable",
-// 		"type": "constructor"
-// 	}
-// ];
+var abi = [
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getCreator",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "getAccident",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_video_hash",
+				"type": "string"
+			},
+			{
+				"name": "_time",
+				"type": "string"
+			},
+			{
+				"name": "_latitude",
+				"type": "string"
+			},
+			{
+				"name": "_longitude",
+				"type": "string"
+			}
+		],
+		"name": "addAccidentInfo",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAccidentCount",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+];
 
-// var ContractAddress = "0xe2671ddc66d757d755ad01635c3bebdcca68a726";
-// var AccCon = web3.eth.contract(abi);
-// var AccContract = AccCon.at(ContractAddress);
+var ContractAddress = "0xadb9b5bc7310823e9208ae0e00255036ceb359cb";
+var AccCon = web3.eth.contract(abi);
+var AccContract = AccCon.at(ContractAddress);
 
 var postModel = require(__dirname + '/models/post');
+var userModel = require(__dirname + '/models/user');
 
 var upload = multer({
    storage: multer.diskStorage({
@@ -182,16 +183,16 @@ app.listen(port, () => {
 
 app2.use(bodyParser2.json());
 
-// AccContract.getAccidentCount(function(e, r){
-//     if(e) console.log(e);
-//     else{
-//         console.log(r.toString(10));
-//         console.log(r.toNumber());
-//     }
-// });
+AccContract.getAccidentCount(function(e, r){
+    if(e) console.log(e);
+    else{
+        console.log(r.toString(10));
+        console.log(Number(r));
+    }
+});
 
 app2.post('/', upload.any(), (req, res)=>{
-   console.log(req);
+//   console.log(req);
    console.log('Success!');
 
    var s_time_1 = req.body.video1_start_time;
@@ -211,9 +212,9 @@ app2.post('/', upload.any(), (req, res)=>{
 
    // calculate cutting time
    if(e1_m == acc_m){
-      sec = Number(e1_s) - Number(acc_s);
+      sec = Number(e1_s) - Number(acc_s) + 1;
    } else{
-      sec = Number(e1_s) + 60 - Number(acc_s);
+      sec = Number(e1_s) + 60 - Number(acc_s) + 1;
    }
    
    front_sec = front_sec - sec;
@@ -295,35 +296,36 @@ app2.post('/', upload.any(), (req, res)=>{
    var output = sha.digest('hex').toString();
 
    console.log(output);
+//    var lat_2 = 37.5536067;
+//    lat_2 = lat_2.toString();
+//    var lon_2 = 126.96961950000002;
+//    lon_2 = lon_2.toString();
+   AccContract.addAccidentInfo.sendTransaction(output, acc_time, req.body.latitude, req.body.longitude, {
+                                                to : web3.eth.accounts[0],
+                                                from : '0x03466bd0862f7fdec52e9d5c697ea2bd5bc68dec',
+                                                gas: 8000029
+                                                }, function(error, transactionHash){
+        if(!error){
+            console.log('Contract no error');
+        }else{
+            console.log(error);
+        }
+    });
 
-//    AccContract.addAccidentInfo.sendTransaction(output, acc_time, req.body.latitude, req.body.longitude, {
-//                                                 to : web3.eth.accounts[0],
-//                                                 from : '0x03466bd0862f7fdec52e9d5c697ea2bd5bc68dec',
-//                                                 gas: 8000029
-//                                                 }, function(error, transactionHash){
-//         if(!error){
-//             console.log('Contract no error');
-//         }else{
-//             console.log(error);
-//         }
-//     });
-
-   var mappingNumber = 0;
-    // AccContract.getAccidentCount('sherry92', function(e, r ){
-    //    if(e) console.log(e);
-    //    else {
-    //       console.log(r.toNumber());
-    //       mappingNumber = r.toNumber();
+    var mappingNumber;
+    AccContract.getAccidentCount(function(e, r){
+       if(e) console.log(e);
+       else {
+          console.log(Number(r));
+          mappingNumber = Number(r);
           var lat_1 = req.body.latitude;
           var lon_1 = req.body.longitude;
 
           lat_1 = Number(lat_1);
           lon_1 = Number(lon_1);
-
-          console.log(typeof lat_1);
-          console.log(typeof lon_1);
+        
           var post = new postModel({
-                userId : 'sherry92',
+                userId : 'gahu',
                 accTime : acc_time,
                 lat : lat_1,
                 lon : lon_1,
@@ -342,8 +344,21 @@ app2.post('/', upload.any(), (req, res)=>{
                    console.log('successfully new data Insert!');
                 }
           });
-//        }
-//    });
+
+        //   var user = new userModel({
+        //       userId : userId,
+        //       pass : pass
+        //   });
+        //   user.save(function(error, data){
+        //       if(error) {
+        //           console.log('DB ERROR!');
+        //           console.log(error);
+        //       } else {
+        //           console.log('new user info Insert!');
+        //       }
+        //   });
+       }
+   });
 
    console.log('FINISH!');
    res.send('Good Job!');

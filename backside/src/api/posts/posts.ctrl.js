@@ -14,6 +14,7 @@ exports.checkObjectId = (ctx, next) => {
 };
 
 const Post = require('models/post');
+const User = require('models/user');
 const Joi = require('joi');
 
 // exports.write = async (ctx) => {
@@ -88,13 +89,22 @@ exports.list = async (ctx) => {
 
 // 특정 포스트 조회
 exports.read = async (ctx) => {
-    const { id } = ctx.params;
+    const { id, userId } = ctx.params;
     try {
         const post = await Post.findById(id).exec();
+        const user = await User.findById(userId).exec();
+
         // 포스트가 없으면
         if(!post) {
             ctx.status = 404;
             return;
+        }
+
+        // userId가 다르면 읽을 권한이 없다.
+        if(!user) {
+            ctx.body = '읽을 권한이 없습니다.'
+        } else {
+            ctx.body = post;
         }
         ctx.body = post;
     } catch(e) {

@@ -22,11 +22,12 @@ contract AccInfo{
       string latitude;
       string longitude;
    }
-   uint256 count = 1;
    
+   uint256 count = 1;
+
    mapping(uint256 => accident) Accidents;
 
-   function addAccidentInfo(string _video_hash, string _time, string _latitude, string longitude) 
+   function addAccidentInfo(string _video_hash, string _time, string _latitude, string _longitude) 
    public {
       Accidents[count].video_hash = _video_hash;
       Accidents[count].time = _time;

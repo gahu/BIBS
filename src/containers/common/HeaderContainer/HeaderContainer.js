@@ -6,13 +6,28 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 class HeaderContainer extends Component {
+  handleLoginClick = async () => {
+    const { BaseActions, logged } = this.props;
+    if(logged) {
+        try {
+            await BaseActions.logout();
+            window.location.reload(); // 페이지 새로고침
+        } catch(e) {
+            console.log(e);
+        }
+        return;
+    }
+    BaseActions.showModal('login');
+    BaseActions.initializeLoginModal();
+  }
+  
   handleRemove = () => {
     const { BaseActions } = this.props;
     BaseActions.showModal('remove');
   }
 
   render() {
-    const { handleRemove } = this;
+    const { handleRemove, handleLoginClick } = this;
     const { match, logged } = this.props;
 
     const { id } = match.params;
@@ -22,6 +37,7 @@ class HeaderContainer extends Component {
         postId={id}
         logged={logged}
         onRemove={handleRemove}
+        onLoginClick={handleLoginClick}
       />
     );
   }

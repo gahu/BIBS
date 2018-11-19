@@ -7,12 +7,18 @@ import Button from 'components/common/Button';
 const cx = classNames.bind(styles);
 
 // 싹 변경이 필요하다
-const Header = ({postId, logged, onRemove}) => (
+const Header = ({postId, logged, onRemove, onLogin}) => (
     <header className={cx('header')}>
         <div className={cx('header-content')}>
             <div className={cx('brand')}>
                 <Link to="/">BIBS</Link>
             </div>
+            { !logged && 
+                <Button theme="outline">회원가입</Button>
+            }
+            <Button theme="outline" onClick={onLogin}>
+                {logged ? '로그아웃' : '로그인'}
+            </Button>
             { logged && <div className={cx('right')}>
                 {
                     // flex를 유지하기위해 배열 형태로 렌더링
