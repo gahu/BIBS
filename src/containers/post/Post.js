@@ -44,28 +44,24 @@ class Post extends Component {
     update = async (userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate) => {
         var lat_1 = Number(lat);
         var lon_1 = Number(lon);
-        console.log('콜백 요청 전');
-        // 콜백 어떻게 기다려??????????????????
+
         geocoder.coord2Address(lon_1, lat_1, (result, stats) => {
             //console.log(stats); 
             if (stats === daum.maps.services.Status.OK) {
                 addr = result[0].address.address_name;
-                console.log(addr);
-                this.setState;
+                this.setState({
+                    userId: userId,
+                    accTime: accTime,
+                    lat: lat,
+                    lon: lon,
+                    video: video,
+                    accNum: accNum,
+                    carName: carName,
+                    carNumber: carNumber,
+                    publishedDate: publishedDate,
+                    detailAddr : addr
+                });
             }
-        });
-        console.log('콜백 요청 직후');
-        this.setState({
-            userId: userId,
-            accTime: accTime,
-            lat: lat,
-            lon: lon,
-            video: video,
-            accNum: accNum,
-            carName: carName,
-            carNumber: carNumber,
-            publishedDate: publishedDate,
-            detailAddr : addr
         });
     }
 
@@ -74,15 +70,12 @@ class Post extends Component {
         const { post } = this.props;
         const { userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate } = post.toJS();
         await this.update(userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate);
-        console.log('update함수 종료');
     }
 
     render() {
         const { loading } = this.props;
 
         if(loading) return null; // 로딩 중일 때는 아무것도 보여 주지 않음
-
-        console.log(this.state);
         
         return (
             <div>
