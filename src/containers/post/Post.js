@@ -26,7 +26,7 @@ class Post extends Component {
             carName: null,
             carNumber: null,
             publishedDate: null,
-            detailAddr: null
+            detailAddr: addr
         };
     }
 
@@ -35,7 +35,6 @@ class Post extends Component {
         const { PostActions, id } = this.props;
         try {
             await PostActions.getPost(id);
-            console.log('first');
             // await this.updateHeader();
         } catch(e) {
             console.log(e);
@@ -45,15 +44,17 @@ class Post extends Component {
     update = async (userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate) => {
         var lat_1 = Number(lat);
         var lon_1 = Number(lon);
-        console.log('third');
+        console.log('콜백 요청 전');
         // 콜백 어떻게 기다려??????????????????
-        await geocoder.coord2Address(lon_1, lat_1, function(result, stats){
+        geocoder.coord2Address(lon_1, lat_1, (result, stats) => {
             //console.log(stats); 
             if (stats === daum.maps.services.Status.OK) {
                 addr = result[0].address.address_name;
                 console.log(addr);
+                this.setState;
             }
         });
+        console.log('콜백 요청 직후');
         this.setState({
             userId: userId,
             accTime: accTime,
@@ -70,21 +71,18 @@ class Post extends Component {
 
     componentDidMount = async () => {
         await this.initialize();
-        console.log('second');
         const { post } = this.props;
         const { userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate } = post.toJS();
         await this.update(userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate);
-        console.log('Fourth');
-    }
-
-    shouldComponentUpdate(){
-        
+        console.log('update함수 종료');
     }
 
     render() {
         const { loading } = this.props;
 
         if(loading) return null; // 로딩 중일 때는 아무것도 보여 주지 않음
+
+        console.log(this.state);
         
         return (
             <div>
