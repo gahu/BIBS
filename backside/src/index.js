@@ -223,7 +223,7 @@ app2.post('/', upload.any(), (req, res)=>{
    var execSync = require('child_process').execSync,
       child;
 
-   child = execSync("ffmpeg -i " + videoPath + req.body.first_file_name + " -acodec copy -vcodec copy -ss " + front_sec.toString() + " -t " + sec.toString() + " " + videoPath + "accf.h264 -y" , function(error, stdout, stderr){
+   child = execSync("ffmpeg -i " + videoPath + req.body.first_file_name + " -acodec copy -vcodec copy -ss " + front_sec.toString() + " -t " + (sec + 1).toString() + " " + videoPath + "accf.h264 -y" , function(error, stdout, stderr){
       console.log('stdout : ' + stdout);
       console.log('stderr : ' + stderr);
       if(error !== null){

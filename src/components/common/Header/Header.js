@@ -13,12 +13,14 @@ const Header = ({postId, logged, onRemove, onLogin}) => (
             <div className={cx('brand')}>
                 <Link to="/">BIBS</Link>
             </div>
-            { !logged && 
-                <Button theme="outline">회원가입</Button>
-            }
-            <Button theme="outline" onClick={onLogin}>
-                {logged ? '로그아웃' : '로그인'}
-            </Button>
+            <div className={cx('middle')}>
+                { !logged &&
+                    <Button key="logUp" theme="outline">회원가입</Button>
+                }
+                <Button key="logInOut" theme="outline" onClick={onLogin}>
+                    {logged ? '로그아웃' : '로그인'}
+                </Button>
+            </div>
             { logged && <div className={cx('right')}>
                 {
                     // flex를 유지하기위해 배열 형태로 렌더링
