@@ -17,6 +17,110 @@ const Post = require('models/post');
 const User = require('models/user');
 const Joi = require('joi');
 
+const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
+const videoPath = path.join(__dirname, '../../../../public/accidents/');
+
+const Web3 = require('web3');
+const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+const abi = [
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getCreator",
+        "outputs": [
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getAccident",
+        "outputs": [
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_video_hash",
+                "type": "string"
+            },
+            {
+                "name": "_time",
+                "type": "string"
+            },
+            {
+                "name": "_latitude",
+                "type": "string"
+            },
+            {
+                "name": "_longitude",
+                "type": "string"
+            }
+        ],
+        "name": "addAccidentInfo",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getAccidentCount",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    }
+];
+
+const ContractAddress = "0xadb9b5bc7310823e9208ae0e00255036ceb359cb";
+const AccCon = web3.eth.contract(abi);
+const AccContract = AccCon.at(ContractAddress);
 // exports.write = async (ctx) => {
 //     // 객체가 지닌 값들을 검증
 //     const schema = Joi.object().keys({
@@ -104,9 +208,26 @@ exports.read = async (ctx) => {
         if(!user) {
             ctx.body = '읽을 권한이 없습니다.'
         } else {
-            ctx.body = post;
+            const file = fs.readFileSync(post.video);
+            const sha = crypto.createHash('sha256');
+            sha.update(file);
+            const output = sha.digest('hex').toString();
+
+            AccContract.getAccident(post.accNum, (e, r) => {
+                if(e) console.log(e);
+                else{
+                    console.log('Hash in Server Data : ' + output);
+                    console.log('Hash in Block Data : ' + r[0]);
+                    if(output == r[0]){
+                        post.video = 'No Change';
+                        ctx.body = post;
+                    } else {
+                        post.video = 'Is Change';
+                        ctx.body = post;
+                    }
+                }
+            });
         }
-        ctx.body = post;
     } catch(e) {
         ctx.throw(e, 500);
     }

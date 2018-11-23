@@ -45,6 +45,8 @@ class Post extends Component {
         var lat_1 = Number(lat);
         var lon_1 = Number(lon);
 
+        console.log('Video is Change? : ' + video);
+
         geocoder.coord2Address(lon_1, lat_1, (result, stats) => {
             //console.log(stats); 
             if (stats === daum.maps.services.Status.OK) {
