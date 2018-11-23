@@ -9,10 +9,12 @@ class Base extends Component {
     initialize = async () => {
         // 로그인 상태 확인
         const { BaseActions } = this.props;
+        // 로그인 정보 캐시가 로컬로 남아있다면, 임시 관리자 로그인
         if(localStorage.logged === "true") {
             BaseActions.tempLogin();
         }
         BaseActions.checkLogin();
+        BaseActions.checkUserLogin();
     }
     componentDidMount() {
         this.initialize();

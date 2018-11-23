@@ -6,6 +6,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 class HeaderContainer extends Component {
+  handleUserLogUpClick = async () => {
+    const { BaseActions, logged } = this.props;
+    
+    BaseActions.showModal('userlogup');
+    BaseActions.initializeLoginModal();
+  }
+
+  // 관리자 로그인 Header에서는 안쓰임
   handleLoginClick = async () => {
     const { BaseActions, logged } = this.props;
     if(logged) {
@@ -20,6 +28,21 @@ class HeaderContainer extends Component {
     BaseActions.showModal('login');
     BaseActions.initializeLoginModal();
   }
+
+  handleUserLogInClick = async () => {
+    const { BaseActions, logged } = this.props;
+    if(logged) {
+        try {
+            await BaseActions.adminLogout();
+            window.location.reload(); // 페이지 새로고침
+        } catch(e) {
+            console.log(e);
+        }
+        return;
+    }
+    BaseActions.showModal('userlogin');
+    BaseActions.initializeLoginModal();
+  }
   
   handleRemove = () => {
     const { BaseActions } = this.props;
@@ -27,7 +50,7 @@ class HeaderContainer extends Component {
   }
 
   render() {
-    const { handleRemove, handleLoginClick } = this;
+    const { handleRemove, handleUserLogUpClick, handleUserLogInClick } = this;
     const { match, logged } = this.props;
 
     const { id } = match.params;
@@ -37,7 +60,8 @@ class HeaderContainer extends Component {
         postId={id}
         logged={logged}
         onRemove={handleRemove}
-        onLoginClick={handleLoginClick}
+        onUserLogUp={handleUserLogUpClick}
+        onUserLogIn={handleUserLogInClick}
       />
     );
   }

@@ -6,8 +6,7 @@ import Button from 'components/common/Button';
 
 const cx = classNames.bind(styles);
 
-// 싹 변경이 필요하다
-const Header = ({postId, logged, onRemove, onLogin}) => (
+const Header = ({postId, logged, onRemove, onUserLogUp, onUserLogIn}) => (
     <header className={cx('header')}>
         <div className={cx('header-content')}>
             <div className={cx('brand')}>
@@ -15,9 +14,9 @@ const Header = ({postId, logged, onRemove, onLogin}) => (
             </div>
             <div className={cx('middle')}>
                 { !logged &&
-                    <Button key="logUp" theme="outline">회원가입</Button>
+                    <Button key="logUp" theme="outline" onClick={onUserLogUp}>회원가입</Button>
                 }
-                <Button key="logInOut" theme="outline" onClick={onLogin}>
+                <Button key="logInOut" theme="outline" onClick={onUserLogIn}>
                     {logged ? '로그아웃' : '로그인'}
                 </Button>
             </div>
