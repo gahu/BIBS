@@ -7,10 +7,10 @@ import { bindActionCreators } from 'redux';
 
 class HeaderContainer extends Component {
   handleUserLogUpClick = async () => {
-    const { BaseActions, logged } = this.props;
+    const { BaseActions, userLogged } = this.props;
     
-    BaseActions.showModal('userlogup');
-    BaseActions.initializeLoginModal();
+    BaseActions.showModal('userLogup');
+    BaseActions.initializeUserLogupModal();
   }
 
   // 관리자 로그인 Header에서는 안쓰임
@@ -30,18 +30,19 @@ class HeaderContainer extends Component {
   }
 
   handleUserLogInClick = async () => {
-    const { BaseActions, logged } = this.props;
-    if(logged) {
+    const { BaseActions, userLogged } = this.props;
+    console.log('userLogged : ' + userLogged);
+    if(userLogged) {
         try {
-            await BaseActions.adminLogout();
+            await BaseActions.userLogout();
             window.location.reload(); // 페이지 새로고침
         } catch(e) {
             console.log(e);
         }
         return;
     }
-    BaseActions.showModal('userlogin');
-    BaseActions.initializeLoginModal();
+    BaseActions.showModal('userLogin');
+    BaseActions.initializeUserLoginModal();
   }
   
   handleRemove = () => {
@@ -51,14 +52,14 @@ class HeaderContainer extends Component {
 
   render() {
     const { handleRemove, handleUserLogUpClick, handleUserLogInClick } = this;
-    const { match, logged } = this.props;
+    const { match, logged, userLogged } = this.props;
 
     const { id } = match.params;
-
     return (
       <Header 
         postId={id}
         logged={logged}
+        userLogged={userLogged}
         onRemove={handleRemove}
         onUserLogUp={handleUserLogUpClick}
         onUserLogIn={handleUserLogInClick}
@@ -69,7 +70,8 @@ class HeaderContainer extends Component {
 
 export default connect(
   (state) => ({
-    logged: state.base.get('logged')
+    logged: state.base.get('logged'),
+    userLogged: state.base.get('userLogged')
   }),
   (dispatch) => ({
     BaseActions: bindActionCreators(baseActions, dispatch)

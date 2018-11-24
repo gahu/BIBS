@@ -1,27 +1,31 @@
 import React from 'react';
-import styles from './UserLogUpModal.scss';
+import styles from './UserLogupModal.scss';
 import classNames from 'classnames/bind';
 import ModalWrapper from 'components/modal/ModalWrapper';
 
 const cx = classNames.bind(styles);
 
-const UserLogUpModal = ({
-    visible, userId, userPassword, error, onCancel, onLogin, onChange, onKeyPress
+const UserLogupModal = ({
+    visible, userId, userPassword, error, onCancel, onUserLogup, onIdChange, onPassChange, onKeyPress
 }) => (
     <ModalWrapper visible={visible}>
         <div className={cx('form')}>
             <div onClick={onCancel} className={cx('close')}>&times;</div>
             <div className={cx('title')}>회원가입</div>
             <div className={cx('description')}>아이디를 입력하세요</div>
-            <input autoFocus type="password" placeholder="아이디 입력" value={userId}
-            onChange={onChange} onKeyPress={onKeyPress}/>
+            <input autoFocus type="userlogupid" placeholder="아이디 입력" value={userId}
+            onChange={onIdChange} onKeyPress={onKeyPress}/>
             <div className={cx('description')}>비밀번호를 입력하세요</div>
-            <input autoFocus type="password" placeholder="비밀번호 입력" value={userPassword}
-            onChange={onChange} onKeyPress={onKeyPress}/>
-            { error && <div className={cx('error')}>회원가입 실패</div> }
-            <div className={cx('login')} onClick={onLogin}>회원가입</div>
+            <input type="userloguppassword" placeholder="비밀번호 입력" value={userPassword}
+            onChange={onPassChange} onKeyPress={onKeyPress}/>
+            { 
+                error && <div className={cx('error')}>
+                    회원가입 실패
+                </div>
+            }
+            <div className={cx('logup')} onClick={onUserLogup}>회원가입</div>
         </div>
     </ModalWrapper>
 );
 
-export default UserLogUpModal;
+export default UserLogupModal;

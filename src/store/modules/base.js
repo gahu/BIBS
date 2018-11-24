@@ -19,7 +19,16 @@ const USERLOGIN = 'base/USERLOGIN';
 const USERLOGOUT = 'base/USERLOGOUT';
 const USERLOGUP = 'base/USERLOGUP';
 const CHECK_USER_LOGIN = 'base/CHECK_USER_LOGIN';
-const CHANGE_USERID_INPUT = 'base/CHANGE_USERID_INPUT';
+
+const CHANGE_LOGIN_ID_INPUT = 'base/CHANGE_LOGIN_ID_INPUT';
+const CHANGE_LOGIN_PASSWORD_INPUT = 'base/CHANGE_LOGIN_PASSWORD_INPUT';
+
+const CHANGE_LOGUP_ID_INPUT = 'base/CHANGE_LOGUP_ID_INPUT';
+const CHANGE_LOGUP_PASSWORD_INPUT = 'base/CHANGE_LOGUP_PASSWORD_INPUT';
+
+const INITIALIZE_USER_LOGIN_MODAL = 'base/INITIALIZE_USER_LOGIN_MODAL';
+const INITIALIZE_USER_LOGUP_MODAL = 'base/INITIALIZE_USER_LOGUP_MODAL';
+
 
 // action creators
 export const showModal = createAction(SHOW_MODAL);
@@ -32,11 +41,18 @@ export const changePasswordInput = createAction(CHANGE_PASSWORD_INPUT);
 export const initializeLoginModal = createAction(INITIALIZE_LOGIN_MODAL);
 export const tempLogin = createAction(TEMP_LOGIN);
 
-export const userLogin = createAction(USERLOGIN, api.userlogin);
-export const userLogout = createAction(USERLOGOUT, api.userlogout);
-export const userLogup = createAction(USERLOGUP, api.userlogup);
+export const userLogin = createAction(USERLOGIN, api.userLogin);
+export const userLogout = createAction(USERLOGOUT, api.userLogout);
+export const userLogup = createAction(USERLOGUP, api.userLogup);
 export const checkUserLogin = createAction(CHECK_USER_LOGIN, api.checkUserLogin);
-export const changeUseridInput = createAction(CHANGE_USERID_INPUT);
+
+export const changeLoginIdInput = createAction(CHANGE_LOGIN_ID_INPUT);
+export const changeLoginPasswordInput = createAction(CHANGE_LOGIN_PASSWORD_INPUT);
+export const changeLogupIdInput = createAction(CHANGE_LOGUP_ID_INPUT);
+export const changeLogupPasswordInput = createAction(CHANGE_LOGUP_PASSWORD_INPUT);
+
+export const initializeUserLoginModal = createAction(INITIALIZE_USER_LOGIN_MODAL);
+export const initializeUserLogupModal = createAction(INITIALIZE_USER_LOGUP_MODAL);
 
 // initial state
 const initialState = Map({
@@ -60,7 +76,8 @@ const initialState = Map({
         error: false
     }),
     logged: false, // 현재 로그인 상태
-    userLogged: false
+    userLogged: false,
+    loginUserId : ''
 });
 
 // reducer
@@ -100,18 +117,20 @@ export default handleActions({
         return state.set('loginModal', initialState.get('loginModal'));
     },
     [TEMP_LOGIN]: (state, action) => {
-        return state.set('logged', true);
+        return state.set('logged', true)
+                    .set('userLogged', true);
     },
 
     ...pender({
         type: USERLOGIN,
         onSucess: (state, action) => {
+            // const { payload:  userId} = action;
             return state.set('userLogged', true);
         },
         onError: (state, action) => {
-            return state.setIn(['loginModal', 'error'], true)
-                        .setIn(['loginModal', 'userId'], '')
-                        .setIn(['loginModal', 'userPassword'], '');
+            return state.setIn(['userLoginModal', 'error'], true)
+                        .setIn(['userLoginModal', 'userId'], '')
+                        .setIn(['userLoginModal', 'userPassword'], '');
         }
     }),
     ...pender({
@@ -120,20 +139,39 @@ export default handleActions({
             return state.set('userLogged', true);
         },
         onError: (state, action) => {
-            return state.setIn(['loginModal', 'error'], true)
-                        .setIn(['loginModal', 'userId'], '')
-                        .setIn(['loginModal', 'userPassword'], '');
+            return state.setIn(['userLogupModal', 'error'], true)
+                        .setIn(['userLogupModal', 'userId'], '')
+                        .setIn(['userLogupModal', 'userPassword'], '');
         }
     }),
     ...pender({
         type: CHECK_USER_LOGIN,
         onSuccess: (state, action) => {
             const { userLogged } = action.payload.data;
-            return state.set('logged', userLogged);
+            return state.set('userLogged', userLogged);
         }
     }),
-    [CHANGE_USERID_INPUT]: (state, action) => {
+    // value가 두번 들어와야 한당
+    [CHANGE_LOGIN_ID_INPUT]: (state, action) => {
         const { payload: value } = action;
-        return state.setIn(['loginModal', 'userId'], value);
+        return state.setIn(['userLoginModal', 'userId'], value);
+    },
+    [CHANGE_LOGIN_PASSWORD_INPUT]: (state, action) => {
+        const { payload: value2 } = action;
+        return state.setIn(['userLoginModal', 'userPassword'], value2);
+    },
+    [CHANGE_LOGUP_ID_INPUT]: (state, action) => {
+        const { payload: value } = action;
+        return state.setIn(['userLogupModal', 'userId'], value);
+    },
+    [CHANGE_LOGUP_PASSWORD_INPUT]: (state, action) => {
+        const { payload: value2 } = action;
+        return state.setIn(['userLogupModal', 'userPassword'], value2);
+    },
+    [INITIALIZE_USER_LOGIN_MODAL]: (state, action) => {
+        return state.set('userLoginModal', initialState.get('userLoginModal'));
+    },
+    [INITIALIZE_USER_LOGUP_MODAL]: (state, action) => {
+        return state.set('userLogupModal', initialState.get('userLogupModal'));
     },
 }, initialState)

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import LoginModal from 'components/modal/LoginModal';
+import UserLogupModal from 'components/modal/UserLogupModal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as baseActions from 'store/modules/base';
 
 class UserLogupModalContainer extends Component {
-  handleLogin = async () => {
+  handleUserLogup = async () => {
     const { BaseActions, userId, userPassword } = this.props;
+    console.log(this.props);
     try {
-      // 로그인 시도, 성공하면 모달 닫기
-      await BaseActions.userLogin(userId, userPassword);
+      // 회원가입 시도, 성공하면 모달 닫기
+      await BaseActions.userLogup(userId, userPassword);
       BaseActions.hideModal('userLogup');
     } catch(e) {
       console.log(e);
@@ -19,11 +21,15 @@ class UserLogupModalContainer extends Component {
     const { BaseActions } = this.props;
     BaseActions.hideModal('userLogup');
   }
-  handleChange = (e) => {
+  handleIdChange = (e) => {
     const { value } = e.target;
     const { BaseActions } = this.props;
-    BaseActions.changeUseridInput(value);
-    BaseActions.changePasswordInput(value);
+    BaseActions.changeLogupIdInput(value);
+  }
+  handlePasswordChange = (e) => {
+    const { value } = e.target;
+    const { BaseActions } = this.props;
+    BaseActions.changeLogupPasswordInput(value);
   }
   handleKeyPress = (e) => {
     // 엔터 키를 누르면 로그인 호출 되도록
@@ -34,14 +40,14 @@ class UserLogupModalContainer extends Component {
 
   render() {
     const {
-      handleLogin, handleCancel, handleChange, handleKeyPress
+      handleUserLogup, handleCancel, handleIdChange, handlePasswordChange, handleKeyPress
     } = this;
     const { visible, error, userId, userPassword } = this.props;
-
+    console.log('error : ' + error);
     return (
-      <UserLogUpModal
-        onLogin={handleLogin} onCancel={handleCancel}
-        onChange={handleChange} onKeyPress={handleKeyPress}
+      <UserLogupModal
+        onUserLogup={handleUserLogup} onCancel={handleCancel}
+        onIdChange={handleIdChange} onPassChange={handlePasswordChange} onKeyPress={handleKeyPress}
         visible={visible} error={error} userId={userId} userPassword={userPassword}
       />
     );
@@ -50,7 +56,7 @@ class UserLogupModalContainer extends Component {
 
 export default connect(
   (state) => ({
-    visible: state.base.getIn(['modal', 'userLogin']),
+    visible: state.base.getIn(['modal', 'userLogup']),
     userId: state.base.getIn(['userLogupModal', 'userId']),
     userPassword: state.base.getIn(['userLogupModal', 'userPassword']),
     error: state.base.getIn(['userLogupModal', 'error'])

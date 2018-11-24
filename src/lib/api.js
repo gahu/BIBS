@@ -13,7 +13,7 @@ export const login = (password) => axios.post('/api/auth/login', { password });
 export const checkLogin = () => axios.get('/api/auth/check');
 export const logout = () => axios.post('/api/auth/logout');
 
-export const userlogin = (userId, userPassword) => axios.post('/api/auth/userlogin', { userId, userPassword });
-export const userlogout = () => axios.post('/api/auth/userlogout');
-export const userlogup = (userId, userPassword) => axios.post('/api/auth/userlogup', { userId, userPassword });
+export const userLogin = (userId, userPassword) => axios.post('/api/auth/userlogin', { userId, userPassword });
+export const userLogout = () => axios.post('/api/auth/userlogout');
+export const userLogup = (userId, userPassword) => axios.post('/api/auth/userlogup', { userId, userPassword });
 export const checkUserLogin = () => axios.get('/api/auth/checkUser');

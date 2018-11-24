@@ -17,10 +17,9 @@ const Post = require('models/post');
 const User = require('models/user');
 const Joi = require('joi');
 
-const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
-const videoPath = path.join(__dirname, '../../../../public/accidents/');
+const Sync = require('sync');
 
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
@@ -194,41 +193,61 @@ exports.list = async (ctx) => {
 
 // 특정 포스트 조회
 exports.read = async (ctx) => {
-    const { id, userId } = ctx.params;
+    const { id } = ctx.params;
     try {
+        console.log(ctx.session);
         const post = await Post.findById(id).exec();
-        const user = await User.findById(userId).exec();
-
+        
         // 포스트가 없으면
         if(!post) {
             ctx.status = 404;
             return;
         }
 
-        // userId가 다르면 읽을 권한이 없다.
-        if(!user) {
-            ctx.body = '읽을 권한이 없습니다.'
-        } else {
+        //userId가 다르면 읽을 권한이 없다.
+        if(ctx.session.loginUserId == post.userId) {
             const file = fs.readFileSync(post.video);
             const sha = crypto.createHash('sha256');
             sha.update(file);
             const output = sha.digest('hex').toString();
-
-            AccContract.getAccident(post.accNum, (e, r) => {
-                if(e) console.log(e);
-                else{
-                    console.log('Hash in Server Data : ' + output);
-                    console.log('Hash in Block Data : ' + r[0]);
-                    if(output == r[0]){
-                        post.video = 'No Change';
-                        ctx.body = post;
-                    } else {
-                        post.video = 'Is Change';
-                        ctx.body = post;
-                    }
-                }
-            });
+            var res;
+            res = AccContract.getAccident(post.accNum); 
+            
+            console.log('Hash in Server Data : ' + output);
+            console.log('Hash in Block Data : ' + res[0]);
+            
+            if(output == res[0]){
+                post.video = 'No Change';
+                console.log('video : ' + post.video);
+                console.log('post : ' + post);
+                ctx.body = post;
+            } else {
+                post.video = 'Is Change';
+                console.log('video : ' + post.video);
+                ctx.body = post;
+            }
+        } else {
+            post.video = '권한이 없음';
+            ctx.body = post;
         }
+
+        // {
+        //     if(e) console.log(e);
+        //     else{
+        //         console.log('Hash in Server Data : ' + output);
+        //         console.log('Hash in Block Data : ' + r[0]);
+        //         if(output == r[0]){
+        //             post.video = 'No Change';
+        //             console.log('video : ' + post.video);
+        //             console.log('post : ' + post);
+        //             ctx.body = post;
+        //         } else {
+        //             post.video = 'Is Change';
+        //             console.log('video : ' + post.video);
+        //             ctx.body = post;
+        //         }
+        //     }
+        // });   
     } catch(e) {
         ctx.throw(e, 500);
     }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import LoginModalContainer from 'containers/modal/LoginModalContainer';
+import UserLoginModalContainer from 'containers/modal/UserLoginModalContainer';
+import UserLogupModalContainer from 'containers/modal/UserLogupModalContainer';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as baseActions from 'store/modules/base';
@@ -24,6 +26,8 @@ class Base extends Component {
         return (
             <div>
                 <LoginModalContainer/>
+                <UserLoginModalContainer/>
+                <UserLogupModalContainer/>
                 {
                     /* 전역적으로 사용하는 컴포넌트들이 있다면 여기에 렌더링 */
                 }

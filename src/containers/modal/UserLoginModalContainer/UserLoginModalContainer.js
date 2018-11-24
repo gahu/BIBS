@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import LoginModal from 'components/modal/LoginModal';
+import UserLoginModal from 'components/modal/UserLoginModal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as baseActions from 'store/modules/base';
 
 class UserLoginModalContainer extends Component {
-  handleLogin = async () => {
+  handleUserLogin = async () => {
     const { BaseActions, userId, userPassword } = this.props;
     try {
       // 로그인 시도, 성공하면 모달 닫기
       await BaseActions.userLogin(userId, userPassword);
       BaseActions.hideModal('userLogin');
+      window.location.reload();
     } catch(e) {
       console.log(e);
     }
@@ -19,11 +21,15 @@ class UserLoginModalContainer extends Component {
     const { BaseActions } = this.props;
     BaseActions.hideModal('userLogin');
   }
-  handleChange = (e) => {
+  handleIdChange = (e) => {
     const { value } = e.target;
     const { BaseActions } = this.props;
-    BaseActions.changeUseridInput(value);
-    BaseActions.changePasswordInput(value);
+    BaseActions.changeLoginIdInput(value);
+  }
+  handlePasswordChange = (e) => {
+    const { value } = e.target;
+    const { BaseActions } = this.props;
+    BaseActions.changeLoginPasswordInput(value);
   }
   handleKeyPress = (e) => {
     // 엔터 키를 누르면 로그인 호출 되도록
@@ -34,14 +40,14 @@ class UserLoginModalContainer extends Component {
 
   render() {
     const {
-      handleLogin, handleCancel, handleChange, handleKeyPress
+      handleUserLogin, handleCancel, handleIdChange, handlePasswordChange, handleKeyPress
     } = this;
     const { visible, error, userId, userPassword } = this.props;
 
     return (
       <UserLoginModal
-        onLogin={handleLogin} onCancel={handleCancel}
-        onChange={handleChange} onKeyPress={handleKeyPress}
+        onUserLogin={handleUserLogin} onCancel={handleCancel}
+        onIdChange={handleIdChange} onPassChange={handlePasswordChange} onKeyPress={handleKeyPress}
         visible={visible} error={error} userId={userId} userPassword={userPassword}
       />
     );

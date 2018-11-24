@@ -9,7 +9,7 @@ import shouldCancel from 'lib/shouldCancel';
 import removeMd from 'remove-markdown';
 import { Helmet } from 'react-helmet';
 
-var addr = null;
+// var addr = null;
  // new daum.maps.services.Geocoder();
 const geocoder = new daum.maps.services.Geocoder();
 
@@ -26,7 +26,7 @@ class Post extends Component {
             carName: null,
             carNumber: null,
             publishedDate: null,
-            detailAddr: addr
+            detailAddr: null
         };
     }
 
@@ -45,12 +45,10 @@ class Post extends Component {
         var lat_1 = Number(lat);
         var lon_1 = Number(lon);
 
-        console.log('Video is Change? : ' + video);
-
         geocoder.coord2Address(lon_1, lat_1, (result, stats) => {
             //console.log(stats); 
             if (stats === daum.maps.services.Status.OK) {
-                addr = result[0].address.address_name;
+                var addr = result[0].address.address_name;
                 this.setState({
                     userId: userId,
                     accTime: accTime,
@@ -71,7 +69,17 @@ class Post extends Component {
         await this.initialize();
         const { post } = this.props;
         const { userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate } = post.toJS();
-        await this.update(userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate);
+        if(video == '권한이 없음'){
+            // const { history } = this.props;
+            alert('권한이 없습니다.');
+            window.location.replace("/page/");
+        } else if(video == 'No Change'){
+            alert('블록 데이터와 대조 결과 일치 영상 무결성 보장');
+            await this.update(userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate);
+        } else if(video == 'Is Change'){
+            alert('블록 데이터와 대조 결과 불일치 영상 위,변조 의심');
+            await this.update(userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate);
+        }
     }
 
     render() {

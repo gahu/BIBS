@@ -183,13 +183,13 @@ app.listen(port, () => {
 
 app2.use(bodyParser2.json());
 
-AccContract.getAccidentCount(function(e, r){
-    if(e) console.log(e);
-    else{
-        console.log(r.toString(10));
-        console.log(Number(r));
-    }
-});
+// AccContract.getAccidentCount(function(e, r){
+//     if(e) console.log(e);
+//     else{
+//         console.log(r.toString(10));
+//         console.log(Number(r));
+//     }
+// });
 
 app2.post('/', upload.any(), (req, res)=>{
 //   console.log(req);
@@ -344,19 +344,6 @@ app2.post('/', upload.any(), (req, res)=>{
                    console.log('successfully new data Insert!');
                 }
           });
-
-        //   var user = new userModel({
-        //       userId : userId,
-        //       pass : pass
-        //   });
-        //   user.save(function(error, data){
-        //       if(error) {
-        //           console.log('DB ERROR!');
-        //           console.log(error);
-        //       } else {
-        //           console.log('new user info Insert!');
-        //       }
-        //   });
        }
    });
 
