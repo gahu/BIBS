@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 
-import { Map } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import { pender } from 'redux-pender';
 import * as api from 'lib/api';
 
@@ -29,6 +29,8 @@ const CHANGE_LOGUP_PASSWORD_INPUT = 'base/CHANGE_LOGUP_PASSWORD_INPUT';
 const INITIALIZE_USER_LOGIN_MODAL = 'base/INITIALIZE_USER_LOGIN_MODAL';
 const INITIALIZE_USER_LOGUP_MODAL = 'base/INITIALIZE_USER_LOGUP_MODAL';
 
+// const GPS = 'base/GPS';
+// const INITIALIZE_GPS_MODAL = 'base/INITIALIZE_GPS_MODAL';
 
 // action creators
 export const showModal = createAction(SHOW_MODAL);
@@ -54,6 +56,9 @@ export const changeLogupPasswordInput = createAction(CHANGE_LOGUP_PASSWORD_INPUT
 export const initializeUserLoginModal = createAction(INITIALIZE_USER_LOGIN_MODAL);
 export const initializeUserLogupModal = createAction(INITIALIZE_USER_LOGUP_MODAL);
 
+// export const gps = createAction(GPS, api.gps);
+// export const initializeGpsModal = createAction(INITIALIZE_GPS_MODAL);
+
 // initial state
 const initialState = Map({
     // Modal의 가시성 상태
@@ -73,6 +78,16 @@ const initialState = Map({
     userLogupModal: Map({
         userId: '',
         userPassword: '',
+        error: false
+    }),
+    // gpsModal: Map({
+    //     lat: '',
+    //     lon: '',
+    //     error: false
+    // }),
+    userList: Map({
+        posts: List(),
+        lastPage: null,
         error: false
     }),
     logged: false, // 현재 로그인 상태
@@ -124,8 +139,10 @@ export default handleActions({
     ...pender({
         type: USERLOGIN,
         onSucess: (state, action) => {
-            // const { payload:  userId} = action;
-            return state.set('userLogged', true);
+            const { userId } = action.payload.data;
+            console.log(userId);
+            return state.set('userLogged', true)
+                        .set('loginUserId', userId);
         },
         onError: (state, action) => {
             return state.setIn(['userLoginModal', 'error'], true)
@@ -136,7 +153,7 @@ export default handleActions({
     ...pender({
         type: USERLOGUP,
         onSucess: (state, action) => {
-            return state.set('userLogged', true);
+            return state.set('userLogged', false);
         },
         onError: (state, action) => {
             return state.setIn(['userLogupModal', 'error'], true)
@@ -174,4 +191,12 @@ export default handleActions({
     [INITIALIZE_USER_LOGUP_MODAL]: (state, action) => {
         return state.set('userLogupModal', initialState.get('userLogupModal'));
     },
+    // [GPS]: (state, action) => {
+    //     const { payload: lat, lon } = state;
+    //     return state.setIn(['gpsModal', 'lat'], lat)
+    //                 .setIn(['gpsModal', 'lon'], lon);
+    // },
+    // [INITIALIZE_GPS_MODAL]: (state, action) => {
+    //     return state.set('gpsModal', initialState.get('gpsModal'));
+    // },
 }, initialState)

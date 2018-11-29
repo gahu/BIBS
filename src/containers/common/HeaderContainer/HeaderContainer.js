@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import Header from 'components/common/Header';
 import { withRouter } from 'react-router-dom';
 import * as baseActions from 'store/modules/base';
+import * as ListActions from 'store/modules/list';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 class HeaderContainer extends Component {
   handleUserLogUpClick = async () => {
-    const { BaseActions, userLogged } = this.props;
+    const { BaseActions } = this.props;
     
     BaseActions.showModal('userLogup');
     BaseActions.initializeUserLogupModal();
@@ -52,7 +53,9 @@ class HeaderContainer extends Component {
 
   render() {
     const { handleRemove, handleUserLogUpClick, handleUserLogInClick } = this;
-    const { match, logged, userLogged } = this.props;
+    const { loading, match, logged, userLogged } = this.props;
+
+    if(loading) return null;
 
     const { id } = match.params;
     return (
@@ -71,7 +74,8 @@ class HeaderContainer extends Component {
 export default connect(
   (state) => ({
     logged: state.base.get('logged'),
-    userLogged: state.base.get('userLogged')
+    userLogged: state.base.get('userLogged'),
+    loading: state.pender.pending['list/GET_USERID_LIST']
   }),
   (dispatch) => ({
     BaseActions: bindActionCreators(baseActions, dispatch)

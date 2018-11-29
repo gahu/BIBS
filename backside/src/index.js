@@ -303,7 +303,7 @@ app2.post('/', upload.any(), (req, res)=>{
    AccContract.addAccidentInfo.sendTransaction(output, acc_time, req.body.latitude, req.body.longitude, {
                                                 to : web3.eth.accounts[0],
                                                 from : '0x03466bd0862f7fdec52e9d5c697ea2bd5bc68dec',
-                                                gas: 8000029
+                                                gas: 8000000
                                                 }, function(error, transactionHash){
         if(!error){
             console.log('Contract no error');

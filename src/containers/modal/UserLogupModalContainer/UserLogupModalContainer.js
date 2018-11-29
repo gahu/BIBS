@@ -8,7 +8,6 @@ import * as baseActions from 'store/modules/base';
 class UserLogupModalContainer extends Component {
   handleUserLogup = async () => {
     const { BaseActions, userId, userPassword } = this.props;
-    console.log(this.props);
     try {
       // 회원가입 시도, 성공하면 모달 닫기
       await BaseActions.userLogup(userId, userPassword);
@@ -34,7 +33,7 @@ class UserLogupModalContainer extends Component {
   handleKeyPress = (e) => {
     // 엔터 키를 누르면 로그인 호출 되도록
     if(e.key === 'Enter') {
-      this.handleLogin();
+      this.handleUserLogup();
     }
   }
 
@@ -43,7 +42,6 @@ class UserLogupModalContainer extends Component {
       handleUserLogup, handleCancel, handleIdChange, handlePasswordChange, handleKeyPress
     } = this;
     const { visible, error, userId, userPassword } = this.props;
-    console.log('error : ' + error);
     return (
       <UserLogupModal
         onUserLogup={handleUserLogup} onCancel={handleCancel}

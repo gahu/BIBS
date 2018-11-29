@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as listActions from 'store/modules/list';
 import shouldCancel from 'lib/shouldCancel';
-import { ContentAddCircleOutline } from 'material-ui/svg-icons';
+import { Link } from 'react-router-dom';
 
 class ListContainer extends Component {
   getPostList = () => {
@@ -17,16 +17,25 @@ class ListContainer extends Component {
       accNum
     });
   }
+
+  // getUseridList = () => {
+  //   if(shouldCancel()) return;
+  //   const { accNum, page, userId, ListActions } = this.props;
+  //   ListActions.getUseridList({
+  //     page,
+  //     accNum,
+  //     userId
+  //   })
+  // }
   
   componentDidMount() {
     this.getPostList();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // 페이지/태그가 바뀔 때 리스트를 다시 불러온다
+    // 페이지/사고번호가 바뀔 때 리스트를 다시 불러온다
     if(prevProps.page !== this.props.page || prevProps.accNum !== this.props.accNum) {
-      this.getPostList();
-      console.log('여까지 왔음');
+      this.getUseridList();
       // 스크롤바를 맨 위로 올린다
       document.documentElment.scrollTop = 0;
     }
@@ -34,7 +43,6 @@ class ListContainer extends Component {
 
   render() {
     const { loading, posts, page, lastPage, accNum } = this.props;
-    
     if(loading) return null; // 로딩 중에는 아무것도 보여 주지 않는다.
     return (
       <div>

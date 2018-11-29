@@ -19,15 +19,44 @@
         @include media("<medium") { width: calc(100% - 2rem); }
         .video {
             margin: 0 auto;
-            width: 720px;
-            height: 405px;
-            @include media("<large") { 
-                width: 640px;
+            // @include media("<large") { 
+            //     width: 640px;
+            //     height: 360px;
+            // }
+            // @include media("<medium") {
+            //     width: 200px;
+            //     height: 100px;
+            // }
+            
+            // 4:3 = 400x300 , 640x480, 800x600, 1024x768, 1152x864, 1280x960
+            // Extra small devices (portrait phones, 576px 미만)
+            @media (max-width: 575px) {
+                width: 320px;
+                height: 240px;
+            }
+
+            // Small devices (landscape phones, 576px 이상)
+            @media (min-width: 576px) and (max-width: 767px) {
+                width: 480px;
                 height: 360px;
             }
-            @include media("<medium") {
-                width: 480px;
-                height: 270px;
+
+            // Medium devices (tablets, 768px 이상)
+            @media (min-width: 768px) and (max-width: 991px) {
+                width: 640px;
+                height: 480px;
+            }
+
+            // Large devices (desktops, 992px 이상)
+            @media (min-width: 992px) and (max-width: 1199px) {
+                width: 720px;
+                height: 540px;
+            }
+
+            // Extra large devices (large desktops, 1200px 이상)
+            @media (min-width: 1200px) {
+                width: 960px;
+                height: 720px;
             }
         }
     }

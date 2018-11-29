@@ -34,7 +34,7 @@ class UserLoginModalContainer extends Component {
   handleKeyPress = (e) => {
     // 엔터 키를 누르면 로그인 호출 되도록
     if(e.key === 'Enter') {
-      this.handleLogin();
+      this.handleUserLogin();
     }
   }
 

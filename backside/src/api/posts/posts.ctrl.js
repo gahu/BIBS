@@ -157,26 +157,36 @@ exports.list = async (ctx) => {
     // page가 주어지지 않았다면 1로 간주
     // query는 문자열 형태로 받아 오므로 숫자로 변환
     const page = parseInt(ctx.query.page || 1, 10);
-    const { accNum }= ctx.query;
+    const { accNum } = ctx.query;
    
     const query = accNum ? {
-        accNum: accNum // tags 배열에 tag를 가진 포스트 찾기
+        accNum: accNum, // tags 배열에 tag를 가진 포스트 찾기
     } : {};
-    
+    console.log(ctx.session);
     // 잘못된 페이지가 주어졌다면 오류
     if(page < 1) {
         ctx.status = 400;
         return;
     }
-
+    var posts;
+    var postCount;
     try {
-        const posts = await Post.find(query)
-        .sort({_id: -1})
-        .limit(10)
-        .skip((page - 1) * 10)
-        .exec();
-        const postCount = await Post.countDocuments(query).exec();
+        if(ctx.session.loginUserId == null) {
+            posts = await Post.find(query)
+                                    .sort({_id: -1})
+                                    .limit(10)
+                                    .skip((page - 1) * 10)
+                                    .exec();
+            postCount = await Post.countDocuments(query).exec();
 
+        } else {
+            posts = await Post.find({userId : ctx.session.loginUserId})
+            .sort({_id: -1})
+            .limit(10)
+            .skip((page - 1) * 10)
+            .exec();
+            postCount = await Post.countDocuments({userId : ctx.session.loginUserId}).exec();
+        }
         const limitBodyLength = post => ({
             ...post,
             // body: post.body.length < 350 ? post.body : `${post.body.slice(0, 350)}...`
@@ -205,7 +215,7 @@ exports.read = async (ctx) => {
         }
 
         //userId가 다르면 읽을 권한이 없다.
-        if(ctx.session.loginUserId == post.userId) {
+        if(ctx.session.loginUserId == post.userId || ctx.session.logged) {
             const file = fs.readFileSync(post.video);
             const sha = crypto.createHash('sha256');
             sha.update(file);
@@ -230,24 +240,6 @@ exports.read = async (ctx) => {
             post.video = '권한이 없음';
             ctx.body = post;
         }
-
-        // {
-        //     if(e) console.log(e);
-        //     else{
-        //         console.log('Hash in Server Data : ' + output);
-        //         console.log('Hash in Block Data : ' + r[0]);
-        //         if(output == r[0]){
-        //             post.video = 'No Change';
-        //             console.log('video : ' + post.video);
-        //             console.log('post : ' + post);
-        //             ctx.body = post;
-        //         } else {
-        //             post.video = 'Is Change';
-        //             console.log('video : ' + post.video);
-        //             ctx.body = post;
-        //         }
-        //     }
-        // });   
     } catch(e) {
         ctx.throw(e, 500);
     }

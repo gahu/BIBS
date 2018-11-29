@@ -15,7 +15,7 @@ export default [
         component: ListPage
     },
     {
-        path: '/accNum/:accNum/:page?',
+        path: '/page/:userId/:page?',
         component: ListPage
     },
     {

@@ -21,16 +21,17 @@ class FooterContainer extends Component {
     }
     render() {
         const { handleLoginClick } = this;
-        const { logged } = this.props;
+        const { logged, userLogged } = this.props;
         return (
-            <Footer onLoginClick={handleLoginClick} logged={logged}/>
+            <Footer onLoginClick={handleLoginClick} logged={logged} userLogged={userLogged}/>
         );
     }
 }
 
 export default connect(
     (state) => ({
-        logged: state.base.get('logged')
+        logged: state.base.get('logged'),
+        userLogged: state.base.get('userLogged')
     }),
     (dispatch) => ({
         BaseActions: bindActionCreators(baseActions, dispatch)

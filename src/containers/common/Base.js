@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LoginModalContainer from 'containers/modal/LoginModalContainer';
 import UserLoginModalContainer from 'containers/modal/UserLoginModalContainer';
 import UserLogupModalContainer from 'containers/modal/UserLogupModalContainer';
+// import GpsModalContainer from 'containers/modal/GpsModalContainer';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as baseActions from 'store/modules/base';
@@ -12,9 +13,9 @@ class Base extends Component {
         // 로그인 상태 확인
         const { BaseActions } = this.props;
         // 로그인 정보 캐시가 로컬로 남아있다면, 임시 관리자 로그인
-        if(localStorage.logged === "true") {
-            BaseActions.tempLogin();
-        }
+        // if(localStorage.logged === "true") {
+        //     BaseActions.tempLogin();
+        // }
         BaseActions.checkLogin();
         BaseActions.checkUserLogin();
     }
@@ -28,6 +29,7 @@ class Base extends Component {
                 <LoginModalContainer/>
                 <UserLoginModalContainer/>
                 <UserLogupModalContainer/>
+                {/* <GpsModalContainer/> */}
                 {
                     /* 전역적으로 사용하는 컴포넌트들이 있다면 여기에 렌더링 */
                 }

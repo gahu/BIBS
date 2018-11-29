@@ -1,27 +1,25 @@
 import React from 'react';
 import styles from './PostBody.scss';
 import classNames from 'classnames/bind';
+import moment from 'moment';
 import MarkdownRender from 'components/common/MarkdownRender';
 
 const cx = classNames.bind(styles);
 
-const PostBody = ({accTime, video, addr, carName, carNumber}) => (
+const PostBody = ({time, accTime, video, lat, lon, addr, carName, carNumber, handleGPSClick}) => (
     <React.Fragment>
     <div className={cx('post-body')}>
         <div className={cx('paper')}>
             {/* <MarkdownRender markdown={accAddr}/> */}
-            <ul>
-                <li>사고 시간 : {accTime}</li>
-                <li>사고 장소 : {addr}</li>
-                <li>차량 이름 : {carName}</li>
-                <li>차량 번호 : {carNumber}</li>
-                <li>video: </li>
-            </ul>
+            <li>사고 시간 : {moment(accTime).format('lll')}</li>
+            <li onClick={handleGPSClick}>사고 장소 : {addr}</li>
+            <li>차량 이름 : {carName}</li>
+            <li>차량 번호 : {carNumber}</li>
+            <li>사고 영상 : </li>
             {
-                video && <div className={cx('video')}>
-                {/* <div> */}
-                <video  width= "480" height= "270" controls>
-                    <source src={ window.location.origin + "/accidents/" + accTime + '.mp4' } type="video/mp4" />
+                video && <div>
+                <video className={cx('video')} controls>
+                    <source src={ window.location.origin + "/accidents/" + time + '.mp4' } type="video/mp4" />
                 </video>
             </div>
             }

@@ -13,18 +13,14 @@ const PostItem = ({userId, accTime, lat, lon, video, accNum, carName, carNumber,
     // );
     return (
         <div className={cx('post-item')}>
-            <h2><Link to={`/post/${id}`}>{userId}</Link></h2>
+            <h2><Link to={`/post/${id}`}>ID : {userId}</Link></h2>
             <div className={cx('date')}>{moment(publishedDate).format('ll')}</div>
-            {/* <p>{removeMd(body)}</p> */}
             <ul>
                 <li>사고 시간 : {accTime}</li>
-                {/* <li>accidentAddress : {accAddr}</li> */}
-                {/* <li>video : {video}</li> */}
-                <li>차 이름 : {carName}</li>
-                <li>차 번호 : {carNumber}</li>
+                <li>차량 이름 : {carName}</li>
+                <li>차량 번호 : {carNumber}</li>
             </ul>
             <div className={cx('tags')}>
-                {/* {tagList} */}
                 사고 번호={accNum}
             </div>
         </div>
@@ -39,10 +35,8 @@ const PostList = ({posts}) => {
                 <PostItem
                     userId={userId}
                     accTime={accTime}
-                    lat={lat}
-                    lon={lon}
-                    // accAddr={accAddr}
-                    // video={video}
+                    // lat={lat}
+                    // lon={lon}
                     accNum={accNum}
                     carName={carName}
                     carNumber={carNumber}
