@@ -139,8 +139,7 @@ var upload = multer({
 const {
     PORT: port = 4000, // 값이 존재하지 않는다면 4000을 기본 값으로 사용
     MONGO_URI: mongoURI,
-    COOKIE_SIGN_KEY: signKey,
-    DAUM_KEY: d_key
+    COOKIE_SIGN_KEY: signKey
 } = process.env;
 
 mongoose.Promise = global.Promise; // Node의 Promise로 사용하도록 설정

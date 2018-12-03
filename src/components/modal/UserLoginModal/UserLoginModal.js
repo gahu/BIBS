@@ -13,10 +13,10 @@ const UserLoginModal = ({
             <div onClick={onCancel} className={cx('close')}>&times;</div>
             <div className={cx('title')}>로그인</div>
             <div className={cx('description')}>아이디를 입력하세요</div>
-            <input autoFocus type="userloginid" placeholder="아이디 입력" value={userId}
+            <input autoFocus type="id" placeholder="아이디 입력" value={userId}
             onChange={onIdChange} onKeyPress={onKeyPress}/>
             <div className={cx('description')}>비밀번호를 입력하세요</div>
-            <input type="userloginpassword" placeholder="비밀번호 입력" value={userPassword} 
+            <input type="password" placeholder="비밀번호 입력" value={userPassword} 
             onChange={onPassChange} onKeyPress={onKeyPress}/>
             { 
                 error && <div className={cx('error')}>

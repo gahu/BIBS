@@ -14,7 +14,6 @@ exports.checkObjectId = (ctx, next) => {
 };
 
 const Post = require('models/post');
-const User = require('models/user');
 const Joi = require('joi');
 
 const fs = require('fs');
@@ -120,38 +119,39 @@ const abi = [
 const ContractAddress = "0xadb9b5bc7310823e9208ae0e00255036ceb359cb";
 const AccCon = web3.eth.contract(abi);
 const AccContract = AccCon.at(ContractAddress);
-// exports.write = async (ctx) => {
-//     // 객체가 지닌 값들을 검증
-//     const schema = Joi.object().keys({
-//         title: Joi.string().required(), // required는 필수 항목이라는 의미
-//         body: Joi.string().required(),
-//         tags: Joi.array().items(Joi.string()).required() // 문자열 배열
-//     });
 
-//     // 첫 번째 파라미터는 검증할 객체, 두 번째는 스키마
-//     const result = Joi.validate(ctx.request.body, schema);
+exports.write = async (ctx) => {
+    // 객체가 지닌 값들을 검증
+    const schema = Joi.object().keys({
+        title: Joi.string().required(), // required는 필수 항목이라는 의미
+        body: Joi.string().required(),
+        // tags: Joi.array().items(Joi.string()).required() // 문자열 배열
+    });
 
-//     // 오류가 발생하면 오류 내용 응답
-//     if(result.error) {
-//         ctx.status = 400;
-//         ctx.body = result.error;
-//         return;
-//     }
+    // 첫 번째 파라미터는 검증할 객체, 두 번째는 스키마
+    const result = Joi.validate(ctx.request.body, schema);
 
-//     const { title, body, tags } = ctx.request.body;
+    // 오류가 발생하면 오류 내용 응답
+    if(result.error) {
+        ctx.status = 400;
+        ctx.body = result.error;
+        return;
+    }
 
-//     // 새 Post 인스턴스를 만든다.
-//     const post = new Post({
-//         title, body, tags
-//     });
+    const { title, body } = ctx.request.body;
 
-//     try {
-//         await post.save(); // 데이터베이스에 등록
-//         ctx.body = post; // 저장된 결과를 반환
-//     } catch(e) {
-//         ctx.throw(e, 500);
-//     }
-// };
+    // 새 Post 인스턴스를 만든다.
+    const post = new Post({
+        title, body
+    });
+
+    try {
+        await post.save(); // 데이터베이스에 등록
+        ctx.body = post; // 저장된 결과를 반환
+    } catch(e) {
+        ctx.throw(e, 500);
+    }
+};
 
 exports.list = async (ctx) => {
     // page가 주어지지 않았다면 1로 간주

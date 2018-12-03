@@ -30,9 +30,9 @@
             
             // 4:3 = 400x300 , 640x480, 800x600, 1024x768, 1152x864, 1280x960
             // Extra small devices (portrait phones, 576px 미만)
-            @media (max-width: 575px) {
-                width: 320px;
-                height: 240px;
+            @media (min-width: 320px) and (max-width: 575px) {
+                width: 256px;
+                height: 192px;
             }
 
             // Small devices (landscape phones, 576px 이상)

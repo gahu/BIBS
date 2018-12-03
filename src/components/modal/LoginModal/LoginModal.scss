@@ -18,8 +18,13 @@
         }
     }
     .title {
+        text-align: center;
         font-size: 1.25rem;
         font-weight: 500;
+    }
+    .adminId {
+        display: block;
+        margin-top: 0.25rem;
     }
     .description {
         margin-top: 0.25rem;

@@ -11,8 +11,9 @@ const LoginModal = ({
     <ModalWrapper visible={visible}>
         <div className={cx('form')}>
             <div onClick={onCancel} className={cx('close')}>&times;</div>
-            <div className={cx('title')}>로그인</div>
-            <div className={cx('description')}>관리자 비밀번호를 입력하세요</div>
+            <div className={cx('title')}>관리자 로그인</div>
+            <div className={cx('adminId')}>ADMIN</div>
+            <div className={cx('description')}>비밀번호를 입력하세요</div>
             <input autoFocus type="password" placeholder="비밀번호 입력" value={password} 
             onChange={onChange} onKeyPress={onKeyPress}/>
             { error && <div className={cx('error')}>로그인 실패</div> }
