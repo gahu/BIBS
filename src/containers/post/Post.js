@@ -88,11 +88,18 @@ class Post extends Component {
             this.handleInconsistencyMsg();
             this.onDismiss = this.onDismiss.bind(this);
             await this.update(userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate);
+        } else if(video == 'pending'){
+            this.handlePending();
+            this.onDismiss = this.onDismiss.bind(this);
+            await this.update(userId, accTime, lat, lon, video, accNum, carName, carNumber, publishedDate);
         }
     }
     
     onDismiss() {
         this.setState({ visible: false });
+    }
+    handlePending = () => {
+        this.submit('영상 정보가 블록에 올라가는중입니다. 잠시 후 위,변조 여부를 확인해주세요.');
     }
     handleErrorMsg = () => {
         this.submit('권한이 없습니다.');

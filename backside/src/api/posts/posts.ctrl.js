@@ -23,100 +23,90 @@ const Sync = require('sync');
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 const abi = [
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "getCreator",
-        "outputs": [
-            {
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "index",
-                "type": "uint256"
-            }
-        ],
-        "name": "getAccident",
-        "outputs": [
-            {
-                "name": "",
-                "type": "string"
-            },
-            {
-                "name": "",
-                "type": "string"
-            },
-            {
-                "name": "",
-                "type": "string"
-            },
-            {
-                "name": "",
-                "type": "string"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_video_hash",
-                "type": "string"
-            },
-            {
-                "name": "_time",
-                "type": "string"
-            },
-            {
-                "name": "_latitude",
-                "type": "string"
-            },
-            {
-                "name": "_longitude",
-                "type": "string"
-            }
-        ],
-        "name": "addAccidentInfo",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "getAccidentCount",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    }
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getCreator",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "getAccident",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "count",
+				"type": "uint256"
+			},
+			{
+				"name": "_video_hash",
+				"type": "string"
+			},
+			{
+				"name": "_time",
+				"type": "string"
+			},
+			{
+				"name": "_latitude",
+				"type": "string"
+			},
+			{
+				"name": "_longitude",
+				"type": "string"
+			}
+		],
+		"name": "addAccidentInfo",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
 ];
 
-const ContractAddress = "0xadb9b5bc7310823e9208ae0e00255036ceb359cb";
+const ContractAddress = "0x9bb6770696aee7bd82ab0a29be382ec4f5c79c3b";
 const AccCon = web3.eth.contract(abi);
 const AccContract = AccCon.at(ContractAddress);
 
@@ -156,13 +146,13 @@ exports.write = async (ctx) => {
 exports.list = async (ctx) => {
     // page가 주어지지 않았다면 1로 간주
     // query는 문자열 형태로 받아 오므로 숫자로 변환
+    console.log(ctx.query.page);
     const page = parseInt(ctx.query.page || 1, 10);
     const { accNum } = ctx.query;
    
     const query = accNum ? {
-        accNum: accNum, // tags 배열에 tag를 가진 포스트 찾기
+        accNum: accNum, // accNum에 accNum를 가진 포스트 찾기
     } : {};
-    console.log(ctx.session);
     // 잘못된 페이지가 주어졌다면 오류
     if(page < 1) {
         ctx.status = 400;
@@ -181,10 +171,10 @@ exports.list = async (ctx) => {
 
         } else {
             posts = await Post.find({userId : ctx.session.loginUserId})
-            .sort({_id: -1})
-            .limit(10)
-            .skip((page - 1) * 10)
-            .exec();
+                                    .sort({_id: -1})
+                                    .limit(10)
+                                    .skip((page - 1) * 10)
+                                    .exec();
             postCount = await Post.countDocuments({userId : ctx.session.loginUserId}).exec();
         }
         const limitBodyLength = post => ({
@@ -230,6 +220,10 @@ exports.read = async (ctx) => {
                 post.video = 'No Change';
                 console.log('video : ' + post.video);
                 console.log('post : ' + post);
+                ctx.body = post;
+            } else if(res[0] == '') {
+                post.video = 'pending';
+                console.log('video : ' + post.video);
                 ctx.body = post;
             } else {
                 post.video = 'Is Change';

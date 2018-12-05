@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 const Pagination = ({page, lastPage, accNum}) => {
     const createPagePath = (page) => {
-        return accNum ? `/tag/${accNum}/${page}` : `/page/${page}`;
+        return `/page/${page}` ? `/tag/${accNum}/${page}` : accNum;
     }
 
     return (

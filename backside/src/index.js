@@ -74,6 +74,10 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
+				"name": "count",
+				"type": "uint256"
+			},
+			{
 				"name": "_video_hash",
 				"type": "string"
 			},
@@ -97,20 +101,6 @@ var abi = [
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAccidentCount",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -118,7 +108,7 @@ var abi = [
 	}
 ];
 
-var ContractAddress = "0xadb9b5bc7310823e9208ae0e00255036ceb359cb";
+var ContractAddress = "0x9bb6770696aee7bd82ab0a29be382ec4f5c79c3b";
 var AccCon = web3.eth.contract(abi);
 var AccContract = AccCon.at(ContractAddress);
 
@@ -176,7 +166,7 @@ app.use(router.routes()).use(router.allowedMethods());
 app.use(serve(staticPath)); // 주의: serve가 ssr전에 와야만 한다.
 app.use(ssr); // 일치하는 것이 없으면 ssr을 실행
 
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log('listening to port', port);
 });
 
@@ -189,8 +179,10 @@ app2.use(bodyParser2.json());
 //         console.log(Number(r));
 //     }
 // });
+// var mappingNumber = postModel.find({"accNum" : $max});
 
-app2.post('/', upload.any(), (req, res)=>{
+
+app2.post('/', upload.any(), async (req, res)=>{
 //   console.log(req);
    console.log('Success!');
 
@@ -299,53 +291,64 @@ app2.post('/', upload.any(), (req, res)=>{
 //    lat_2 = lat_2.toString();
 //    var lon_2 = 126.96961950000002;
 //    lon_2 = lon_2.toString();
-   AccContract.addAccidentInfo.sendTransaction(output, acc_time, req.body.latitude, req.body.longitude, {
-                                                to : web3.eth.accounts[0],
-                                                from : '0x03466bd0862f7fdec52e9d5c697ea2bd5bc68dec',
-                                                gas: 8000000
-                                                }, function(error, transactionHash){
-        if(!error){
-            console.log('Contract no error');
-        }else{
-            console.log(error);
-        }
-    });
+   var lat_1 = req.body.latitude;
+   var lon_1 = req.body.longitude;
 
-    var mappingNumber;
-    AccContract.getAccidentCount(function(e, r){
-       if(e) console.log(e);
-       else {
-          console.log(Number(r));
-          mappingNumber = Number(r);
-          var lat_1 = req.body.latitude;
-          var lon_1 = req.body.longitude;
+   lat_1 = Number(lat_1);
+   lon_1 = Number(lon_1);
 
-          lat_1 = Number(lat_1);
-          lon_1 = Number(lon_1);
-        
-          var post = new postModel({
-                userId : 'gahu',
-                accTime : acc_time,
-                lat : lat_1,
-                lon : lon_1,
-                video : videoPath + acc_time + '.mp4', 
-                accNum : mappingNumber,
-                carName : req.body.carName,
-                carNumber : req.body.carNumber
-          });
-          console.log(post);
+   var mappingNumber = -1;
+   await postModel.find({}).sort({accNum:-1}).limit(1)
+                  .exec(function(err, data){
+                     if(!err){
+                        // console.log(data);
+                        // console.log(data[0].accNum);
+                        mappingNumber = data[0].accNum;
+                        mappingNumber++;
+                        console.log(mappingNumber);
 
-          post.save(function(error, data){
-                if(error){
-                   console.log('DB ERROR!');
-                   console.log(error);
-                } else {
-                   console.log('successfully new data Insert!');
-                }
-          });
-       }
-   });
-
+                        var post = new postModel({
+                           userId : 'sherry92',
+                           accTime : acc_time,
+                           lat : lat_1,
+                           lon : lon_1,
+                           video : videoPath + acc_time + '.mp4',
+                           accNum : mappingNumber,
+                           carName : req.body.carName,
+                           carNumber : req.body.carNumber
+                        });
+                        //console.log(post);
+                     
+                        post.save(function(error, data){
+                              if(error){
+                                 console.log('DB ERROR!');
+                                 console.log(error);
+                              } else {
+                                 console.log('successfully new data Insert!');
+                              }
+                        });
+                     
+                        AccContract.addAccidentInfo.sendTransaction(mappingNumber, output, acc_time, req.body.latitude, req.body.longitude, {
+                                                                     to : web3.eth.accounts[0],
+                                                                     from : '0x03466bd0862f7fdec52e9d5c697ea2bd5bc68dec',
+                                                                     gas: 8000000
+                                                                     }, function(error, transactionHash){
+                           if(!error){
+                                 console.log('Contract no error');
+                           }else{
+                                 console.log(error);
+                           }
+                        });
+                     } else {
+                        console.log('DB ERROR!');
+                        console.log(err);
+                     }
+                  });
+   // while(true){
+   //    // console.log("waiting db data....");
+   //    if(!isNaN(dbPost)) break;
+   // }
+   
    console.log('FINISH!');
    res.send('Good Job!');
 });

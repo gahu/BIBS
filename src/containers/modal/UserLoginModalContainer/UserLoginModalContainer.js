@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import LoginModal from 'components/modal/LoginModal';
 import UserLoginModal from 'components/modal/UserLoginModal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

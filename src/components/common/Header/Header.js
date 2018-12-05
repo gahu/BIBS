@@ -20,6 +20,10 @@ const Header = ({postId, logged, userLogged, userId, onRemove, onUserLogUp, onUs
                     <Button key="userLogin" theme="outline" onClick={onUserLogIn}>
                         {userLogged ? '로그아웃' : '로그인'}
                     </Button>
+                {
+                    postId && 
+                        <Button theme="outline" to="/page">뒤로가기</Button>
+                }
                 </div>
             }
             { logged && <div className={cx('right')}>
