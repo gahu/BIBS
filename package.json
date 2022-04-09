@@ -43,7 +43,7 @@
     "marked": "^0.5.0",
     "material-ui": "^0.20.2",
     "mdbreact": "^4.8.3",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "node-sass": "^4.9.3",
     "object-assign": "4.1.1",
     "open-color": "^1.6.3",
